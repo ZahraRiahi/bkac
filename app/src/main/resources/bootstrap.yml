@@ -63,3 +63,7 @@ spring:
             resourceserver:
                 jwt:
                     jwk-set-uri: http://192.168.25.71:30110/hms-auth/.well-known/jwks.json
+=======
+spring:
+    application:
+        name: bkac-service
