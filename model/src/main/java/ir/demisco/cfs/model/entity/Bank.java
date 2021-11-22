@@ -1,0 +1,83 @@
+package ir.demisco.cfs.model.entity;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Date;
+
+@Entity(name = "BKACBank")
+@Table(name = "bank", schema = "bkac")
+public class Bank {
+    private Long id;
+    private String code;
+    private String name;
+    private Date disableDate;
+    private LocalDateTime deletedDate;
+    private String formatNumber;
+    private String iconName;
+
+
+    @Id
+    @SequenceGenerator(schema = "bkac", name = "bank_generator", sequenceName = "sq_bank", allocationSize = 50)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bank_generator")
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Column(name = "CODE")
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    @Column(name = "NAME")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Column(name = "DISABLE_DATE")
+    public Date getDisableDate() {
+        return disableDate;
+    }
+
+    public void setDisableDate(Date disableDate) {
+        this.disableDate = disableDate;
+    }
+
+    @Column(name = "DELETED_DATE")
+    public LocalDateTime getDeletedDate() {
+        return deletedDate;
+    }
+
+    public void setDeletedDate(LocalDateTime deletedDate) {
+        this.deletedDate = deletedDate;
+    }
+
+    @Column(name = "FORMAT_NUMBER")
+    public String getFormatNumber() {
+        return formatNumber;
+    }
+
+    public void setFormatNumber(String formatNumber) {
+        this.formatNumber = formatNumber;
+    }
+
+    @Column(name = "ICON_NAME")
+    public String getIconName() {
+        return iconName;
+    }
+
+    public void setIconName(String iconName) {
+        this.iconName = iconName;
+    }
+}
