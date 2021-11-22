@@ -17,7 +17,6 @@ public class BankController {
     public BankController(BankService bankService) {
         this.bankService = bankService;
     }
-
     @PostMapping("/List")
     public ResponseEntity<DataSourceResult> bankListResponseEntity(@RequestBody DataSourceRequest dataSourceRequest) {
         return ResponseEntity.ok(bankService.getListBank(dataSourceRequest));
