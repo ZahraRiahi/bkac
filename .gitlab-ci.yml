@@ -10,7 +10,7 @@ variables:
 
   REGISTRY_ADDRESS: $CI_REGISTRY
   app_name: "bkac-service"
-  nodePort: "30453"
+  nodePort: "30457"
   clusterPort: "8080"
   containerPort: "8080"
   name_space: "cfs"
