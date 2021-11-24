@@ -13,4 +13,8 @@ public interface BankBranchRepository  extends JpaRepository<BankBranch, Long> {
             " where  br.bank.id=:bankId and br.deletedDate is null ")
     List<Object[]> findByBankBranchByBankId(Long bankId);
 
+    @Query(" select coalesce(COUNT(br.id),0) from BKACBankBranch br  where br.code=:code and br.deletedDate is null and br.bank.id=:bankId ")
+    Long getCountByBankBranchAndCodeAndDeletedDateAndBank(String code,Long bankId);
+
+
 }

@@ -1,6 +1,6 @@
 package ir.demisco.cfs.service.impl;
 
-import ir.demisco.cfs.model.dto.request.BankSaveRequuest;
+import ir.demisco.cfs.model.dto.request.BankSaveRequest;
 import ir.demisco.cfs.model.dto.response.BankListResponse;
 import ir.demisco.cfs.model.entity.Bank;
 import ir.demisco.cfs.service.api.BankService;
@@ -12,7 +12,6 @@ import ir.demisco.cloud.core.middle.service.business.api.core.GridFilterService;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -46,24 +45,24 @@ public class DefaultBank implements BankService {
 
     @Override
     @Transactional(rollbackOn = Throwable.class)
-    public Boolean getFinancialAccountByIdAndStatusFlag(BankSaveRequuest bankSaveRequuest) {
+    public Boolean saveBank(BankSaveRequest bankSaveRequest) {
 
-        Bank bank = bankRepository.findById(bankSaveRequuest.getBankId() == null ? 0 : bankSaveRequuest.getBankId()).orElse(new Bank());
-        if (bankSaveRequuest.getBankId() != null) {
-            if (bankSaveRequuest.getActiveFlag() == 0) {
+        Bank bank = bankRepository.findById(bankSaveRequest.getBankId() == null ? 0 : bankSaveRequest.getBankId()).orElse(new Bank());
+        if (bankSaveRequest.getBankId() != null) {
+            if (bankSaveRequest.getActiveFlag() == 0) {
                 bank.setDisableDate(new Date());
             } else {
                 bank.setDisableDate(null);
             }
         }
-        Long financialAccountStructureCount = bankRepository.getCountByBankAndCodeAndDeletedDate(bankSaveRequuest.getBankCode());
-        if (financialAccountStructureCount > 0) {
+        Long bankCount = bankRepository.getCountByBankAndCodeAndDeletedDate(bankSaveRequest.getBankCode());
+        if (bankCount > 0) {
             throw new RuleException("بانکی با این اطلاعات قبلا ثبت شده است.");
         }
-        bank.setCode(bankSaveRequuest.getBankCode());
-        bank.setName(bankSaveRequuest.getBankName());
-        bank.setFormatNumber(bankSaveRequuest.getFormatNumber());
-        bank.setIconName(bankSaveRequuest.getIconName());
+        bank.setCode(bankSaveRequest.getBankCode());
+        bank.setName(bankSaveRequest.getBankName());
+        bank.setFormatNumber(bankSaveRequest.getFormatNumber());
+        bank.setIconName(bankSaveRequest.getIconName());
         bankRepository.save(bank);
         return true;
     }
