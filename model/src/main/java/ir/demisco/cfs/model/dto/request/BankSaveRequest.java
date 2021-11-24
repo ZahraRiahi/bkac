@@ -1,6 +1,6 @@
 package ir.demisco.cfs.model.dto.request;
 
-public class BankSaveRequuest {
+public class BankSaveRequest {
     private Long bankId;
     private String bankCode;
     private String bankName;
@@ -56,15 +56,15 @@ public class BankSaveRequuest {
         this.iconName = iconName;
     }
 
-    public static BankSaveRequuest.Builder builder() {
-        return new BankSaveRequuest.Builder();
+    public static BankSaveRequest.Builder builder() {
+        return new BankSaveRequest.Builder();
     }
 
     public static final class Builder {
-        private BankSaveRequuest bankSaveRequuest;
+        private BankSaveRequest bankSaveRequest;
 
         private Builder() {
-            bankSaveRequuest = new BankSaveRequuest();
+            bankSaveRequest = new BankSaveRequest();
         }
 
         public static Builder aBankSaveRequuest() {
@@ -72,37 +72,37 @@ public class BankSaveRequuest {
         }
 
         public Builder bankId(Long bankId) {
-            bankSaveRequuest.setBankId(bankId);
+            bankSaveRequest.setBankId(bankId);
             return this;
         }
 
         public Builder bankCode(String bankCode) {
-            bankSaveRequuest.setBankCode(bankCode);
+            bankSaveRequest.setBankCode(bankCode);
             return this;
         }
 
         public Builder bankName(String bankName) {
-            bankSaveRequuest.setBankName(bankName);
+            bankSaveRequest.setBankName(bankName);
             return this;
         }
 
         public Builder activeFlag(Long activeFlag) {
-            bankSaveRequuest.setActiveFlag(activeFlag);
+            bankSaveRequest.setActiveFlag(activeFlag);
             return this;
         }
 
         public Builder formatNumber(String formatNumber) {
-            bankSaveRequuest.setFormatNumber(formatNumber);
+            bankSaveRequest.setFormatNumber(formatNumber);
             return this;
         }
 
         public Builder iconName(String iconName) {
-            bankSaveRequuest.setIconName(iconName);
+            bankSaveRequest.setIconName(iconName);
             return this;
         }
 
-        public BankSaveRequuest build() {
-            return bankSaveRequuest;
+        public BankSaveRequest build() {
+            return bankSaveRequest;
         }
     }
 }

@@ -1,6 +1,8 @@
 package ir.demisco.cfs.app.web.controller;
 
 import ir.demisco.cfs.model.dto.request.BankBranchGetRequest;
+import ir.demisco.cfs.model.dto.request.BankBranchRequest;
+import ir.demisco.cfs.model.dto.request.BankSaveRequest;
 import ir.demisco.cfs.model.dto.response.BankBranchGetResponse;
 import ir.demisco.cfs.service.api.BankBranchService;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceRequest;
@@ -30,5 +32,12 @@ public class BankBranchController {
     @PostMapping("/Get")
     public ResponseEntity<List<BankBranchGetResponse>> responseEntity(@RequestBody BankBranchGetRequest bankBranchGetRequest) {
         return ResponseEntity.ok(bankBranchService.getBankBranch(bankBranchGetRequest));
+    }
+
+    @PostMapping("/Save")
+    public ResponseEntity<Boolean> saveBankBranch(@RequestBody BankBranchRequest bankBranchRequest) {
+        boolean result;
+        result = bankBranchService.saveBankBranch(bankBranchRequest);
+        return ResponseEntity.ok(result);
     }
 }
