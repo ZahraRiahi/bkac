@@ -15,5 +15,5 @@ public interface BankBranchService {
 
     Boolean saveBankBranch(BankBranchRequest bankBranchRequest);
 
-
+    Boolean deleteBankBranch(Long bankBranchId);
 }
