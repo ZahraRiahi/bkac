@@ -8,10 +8,7 @@ import ir.demisco.cfs.service.api.BankBranchService;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceRequest;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceResult;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,6 +35,13 @@ public class BankBranchController {
     public ResponseEntity<Boolean> saveBankBranch(@RequestBody BankBranchRequest bankBranchRequest) {
         boolean result;
         result = bankBranchService.saveBankBranch(bankBranchRequest);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/Delete/{id}")
+    public ResponseEntity<Boolean> deleteBankBranch(@PathVariable("id") Long bankBranchId) {
+        boolean result;
+        result = bankBranchService.deleteBankBranch(bankBranchId);
         return ResponseEntity.ok(result);
     }
 }
