@@ -4,8 +4,12 @@ import ir.demisco.cfs.model.dto.request.BankBranchGetRequest;
 import ir.demisco.cfs.model.dto.request.BankBranchRequest;
 import ir.demisco.cfs.model.dto.response.BankBranchGetResponse;
 import ir.demisco.cfs.model.dto.response.BankBranchListResponse;
+import ir.demisco.cfs.model.entity.Bank;
+import ir.demisco.cfs.model.entity.BankAccount;
 import ir.demisco.cfs.model.entity.BankBranch;
+import ir.demisco.cfs.model.entity.CentricPersonRole;
 import ir.demisco.cfs.service.api.BankBranchService;
+import ir.demisco.cfs.service.repository.BankAccountRepository;
 import ir.demisco.cfs.service.repository.BankBranchRepository;
 import ir.demisco.cfs.service.repository.BankRepository;
 import ir.demisco.cloud.core.middle.exception.RuleException;
@@ -15,6 +19,7 @@ import ir.demisco.cloud.core.middle.service.business.api.core.GridFilterService;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,12 +31,14 @@ public class DefaultBankBranch implements BankBranchService {
     private final BankBranchListProvider bankBranchListProvider;
     private BankBranchRepository bankBranchRepository;
     private BankRepository bankRepository;
+    private BankAccountRepository bankAccountRepository;
 
-    public DefaultBankBranch(GridFilterService gridFilterService, BankBranchListProvider bankBranchListProvider, BankBranchRepository bankBranchRepository, BankRepository bankRepository) {
+    public DefaultBankBranch(GridFilterService gridFilterService, BankBranchListProvider bankBranchListProvider, BankBranchRepository bankBranchRepository, BankRepository bankRepository, BankAccountRepository bankAccountRepository) {
         this.gridFilterService = gridFilterService;
         this.bankBranchListProvider = bankBranchListProvider;
         this.bankBranchRepository = bankBranchRepository;
         this.bankRepository = bankRepository;
+        this.bankAccountRepository = bankAccountRepository;
     }
 
     @Override
@@ -101,6 +108,32 @@ public class DefaultBankBranch implements BankBranchService {
         bankBranchRepository.save(bankBranch);
         return true;
     }
+
+    @Override
+    @Transactional(rollbackOn = Throwable.class)
+    public Boolean deleteBankBranch(Long bankBranchId) {
+        List<BankAccount> bankAccounts = bankAccountRepository.findByBankBranchId(bankBranchId);
+        BankBranch bankBranch;
+        if (!bankAccounts.isEmpty()) {
+            throw new RuleException("fin.bankBranch.delete");
+        } else {
+            bankBranch = bankBranchRepository.findById(bankBranchId).orElseThrow(() -> new RuleException("fin.ruleException.notFoundId"));
+            bankBranch.setDeletedDate(LocalDateTime.now());
+            bankBranchRepository.save(bankBranch);
+            return true;
+        }
+
+    }
+
+//    List<CentricPersonRole> centricPersonRoles = centricPersonRoleRepository.findByCentricAccountId(centricAccountId);
+//    CentricAccount centricAccount;
+//        if (!centricPersonRoles.isEmpty()) {
+//        centricPersonRoles.forEach(e -> e.setDeletedDate(LocalDateTime.now()));
+//    }
+//    centricAccount = centricAccountRepository.findById(centricAccountId).orElseThrow(() -> new RuleException("fin.ruleException.notFoundId"));
+//        centricAccount.setDeletedDate(LocalDateTime.now());
+//        return true;
+//}
 
 }
 
