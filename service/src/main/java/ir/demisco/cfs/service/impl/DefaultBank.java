@@ -36,7 +36,7 @@ public class DefaultBank implements BankService {
         List<BankListResponse> data = (List<BankListResponse>) dataSourceResult.getData();
         List<BankListResponse> bankListResponses = new ArrayList<>();
         for (BankListResponse bankListResponse : data) {
-            if (bankListResponse.getDisableDate() == null) bankListResponse.setActiveFlag(1L);
+            if (bankListResponse.getDisableDate() == null) bankListResponse.setActiveFlag(true);
             bankListResponses.add(bankListResponse);
         }
         dataSourceResult.setData(bankListResponses);
@@ -66,6 +66,11 @@ public class DefaultBank implements BankService {
             bankCount = bankRepository.getCountBankByCodeAndIdAndDeletedDate(bankSaveRequest.getBankCode(), bankSaveRequest.getBankId());
             if (bankCount > 0) {
                 throw new RuleException("بانکی با این اطلاعات قبلا ثبت شده است.");
+            }
+            if (!bankSaveRequest.getActiveFlag()) {
+                bank.setDisableDate(new Date());
+            } else {
+                bank.setDisableDate(null);
             }
         }
         bank.setCode(bankSaveRequest.getBankCode());

@@ -42,7 +42,7 @@ public class BankListProvider implements GridDataProvider {
                     .bankCode((String) array[1])
                     .bankName((String) array[2])
                     .disableDate((Date) array[3])
-                    .activeFlag(0L)
+                    .activeFlag(false)
                     .formatNumber((String) array[4])
                     .iconName((String) array[5])
                     .build();

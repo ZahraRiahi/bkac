@@ -7,7 +7,7 @@ public class BankListResponse {
     private String bankCode;
     private String bankName;
     private Date disableDate;
-    private Long activeFlag;
+    private Boolean activeFlag;
     private String formatNumber;
     private String iconName;
 
@@ -43,11 +43,11 @@ public class BankListResponse {
         this.disableDate = disableDate;
     }
 
-    public Long getActiveFlag() {
+    public Boolean getActiveFlag() {
         return activeFlag;
     }
 
-    public void setActiveFlag(Long activeFlag) {
+    public void setActiveFlag(Boolean activeFlag) {
         this.activeFlag = activeFlag;
     }
 
@@ -102,7 +102,7 @@ public class BankListResponse {
             return this;
         }
 
-        public Builder activeFlag(Long activeFlag) {
+        public Builder activeFlag(Boolean activeFlag) {
             bankListResponse.setActiveFlag(activeFlag);
             return this;
         }
