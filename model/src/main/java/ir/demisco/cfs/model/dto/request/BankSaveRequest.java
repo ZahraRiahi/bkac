@@ -4,7 +4,7 @@ public class BankSaveRequest {
     private Long bankId;
     private String bankCode;
     private String bankName;
-    private Long activeFlag;
+    private Boolean activeFlag;
     private String formatNumber;
     private String iconName;
 
@@ -32,11 +32,11 @@ public class BankSaveRequest {
         this.bankName = bankName;
     }
 
-    public Long getActiveFlag() {
+    public Boolean getActiveFlag() {
         return activeFlag;
     }
 
-    public void setActiveFlag(Long activeFlag) {
+    public void setActiveFlag(Boolean activeFlag) {
         this.activeFlag = activeFlag;
     }
 
@@ -86,7 +86,7 @@ public class BankSaveRequest {
             return this;
         }
 
-        public Builder activeFlag(Long activeFlag) {
+        public Builder activeFlag(Boolean activeFlag) {
             bankSaveRequest.setActiveFlag(activeFlag);
             return this;
         }
