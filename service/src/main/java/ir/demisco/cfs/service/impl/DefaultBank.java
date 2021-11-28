@@ -49,7 +49,7 @@ public class DefaultBank implements BankService {
 
         Bank bank = bankRepository.findById(bankSaveRequest.getBankId() == null ? 0 : bankSaveRequest.getBankId()).orElse(new Bank());
         if (bankSaveRequest.getBankId() != null) {
-            if (bankSaveRequest.getActiveFlag() == 0) {
+            if (bankSaveRequest.getActiveFlag().equals(true)) {
                 bank.setDisableDate(new Date());
             } else {
                 bank.setDisableDate(null);
