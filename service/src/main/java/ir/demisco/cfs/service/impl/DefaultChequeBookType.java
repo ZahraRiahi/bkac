@@ -1,7 +1,12 @@
 package ir.demisco.cfs.service.impl;
 
+import ir.demisco.cfs.model.dto.request.ChequeBookTypeRequest;
 import ir.demisco.cfs.model.dto.response.ChequeBookTypeListResponse;
+import ir.demisco.cfs.model.entity.ChequeBookType;
 import ir.demisco.cfs.service.api.ChequeBookTypeService;
+import ir.demisco.cfs.service.repository.BankRepository;
+import ir.demisco.cfs.service.repository.ChequeBookTypeRepository;
+import ir.demisco.cloud.core.middle.exception.RuleException;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceRequest;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceResult;
 import ir.demisco.cloud.core.middle.service.business.api.core.GridFilterService;
@@ -9,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -16,10 +22,14 @@ import java.util.List;
 public class DefaultChequeBookType implements ChequeBookTypeService {
     private final GridFilterService gridFilterService;
     private final ChequeBookTypeListProvider chequeBookTypeListProvider;
+    private final ChequeBookTypeRepository chequeBookTypeRepository;
+    private final BankRepository bankRepository;
 
-    public DefaultChequeBookType(GridFilterService gridFilterService, ChequeBookTypeListProvider chequeBookTypeListProvider) {
+    public DefaultChequeBookType(GridFilterService gridFilterService, ChequeBookTypeListProvider chequeBookTypeListProvider, ChequeBookTypeRepository chequeBookTypeRepository, BankRepository bankRepository) {
         this.gridFilterService = gridFilterService;
         this.chequeBookTypeListProvider = chequeBookTypeListProvider;
+        this.chequeBookTypeRepository = chequeBookTypeRepository;
+        this.bankRepository = bankRepository;
     }
 
     @Override
@@ -35,5 +45,35 @@ public class DefaultChequeBookType implements ChequeBookTypeService {
         }
         dataSourceResult.setData(chequeBookTypeListResponses);
         return dataSourceResult;
+    }
+
+    @Override
+    @Transactional(rollbackOn = Throwable.class)
+    public Boolean saveChequeBookType(ChequeBookTypeRequest chequeBookTypeRequest) {
+        ChequeBookType chequeBookType = chequeBookTypeRepository.findById(chequeBookTypeRequest.getChequeBookTypeId() == null ? 0 : chequeBookTypeRequest.getChequeBookTypeId()).orElse(new ChequeBookType());
+        if (chequeBookTypeRequest.getDescription() == null) {
+            throw new RuleException("لطفا شرح را وارد نمایید.");
+        }
+        if (chequeBookTypeRequest.getFlagRemit() == null) {
+            throw new RuleException("لطفا فیلد خط خوردن حواله کرد را وارد نمایید.");
+        }
+        if (chequeBookTypeRequest.getChequeCount() == null) {
+            throw new RuleException("لطفا تعداد برگه را وارد نمایید.");
+        }
+        if (chequeBookTypeRequest.getChequeBookTypeId() != null) {
+            if (!chequeBookTypeRequest.getActiveFlag()) {
+                chequeBookType.setDisableDate(new Date());
+            } else {
+                chequeBookType.setDisableDate(null);
+            }
+        }
+        chequeBookType.setBank(chequeBookTypeRequest.getBankId() != null ?
+                bankRepository.getOne(chequeBookTypeRequest.getBankId()) : null);
+        chequeBookType.setDescription(chequeBookTypeRequest.getDescription());
+        chequeBookType.setFlagRemit(chequeBookTypeRequest.getFlagRemit());
+        chequeBookType.setSubTitle(chequeBookTypeRequest.getSubTitle());
+        chequeBookType.setChequeCount(chequeBookTypeRequest.getChequeCount());
+        chequeBookTypeRepository.save(chequeBookType);
+        return true;
     }
 }
