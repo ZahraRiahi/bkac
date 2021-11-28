@@ -49,7 +49,7 @@ public class DefaultBankBranch implements BankBranchService {
         List<BankBranchListResponse> data = (List<BankBranchListResponse>) dataSourceResult.getData();
         List<BankBranchListResponse> bankBranchListResponses = new ArrayList<>();
         for (BankBranchListResponse bankBranchListResponse : data) {
-            if (bankBranchListResponse.getDisableDate() == null) bankBranchListResponse.setActiveFlag(1L);
+            if (bankBranchListResponse.getDisableDate() == null) bankBranchListResponse.setActiveFlag(true);
             bankBranchListResponses.add(bankBranchListResponse);
         }
         dataSourceResult.setData(bankBranchListResponses);
@@ -71,7 +71,8 @@ public class DefaultBankBranch implements BankBranchService {
     @Override
     @Transactional(rollbackOn = Throwable.class)
     public Boolean saveBankBranch(BankBranchRequest bankBranchRequest) {
-        BankBranch bankBranch = bankBranchRepository.findById(bankBranchRequest.getBankId() == null ? 0 : bankBranchRequest.getBankId()).orElse(new BankBranch());
+        BankBranch bankBranch = bankBranchRepository.findById(bankBranchRequest.getBranchId() == null ? 0 : bankBranchRequest.getBranchId()).orElse(new BankBranch());
+        Long bankBranchCount;
         if (bankBranchRequest.getBankId() == null) {
             throw new RuleException("لطفا شناسه ی بانک را وارد نمایید.");
 
@@ -84,19 +85,30 @@ public class DefaultBankBranch implements BankBranchService {
         if (bankBranchRequest.getBranchName() == null) {
             throw new RuleException("لطفا نام شعبه را وارد نمایید.");
         }
-        if (bankBranchRequest.getBranchId() != null) {
-            if (bankBranchRequest.getActiveFlag() == 0) {
+//        if (bankBranchRequest.getBranchId() != null) {
+//            if (bankBranchRequest.getActiveFlag().equals(false)) {
+//                bankBranch.setDisableDate(new Date());
+//            } else {
+//                bankBranch.setDisableDate(null);
+//            }
+//        }
+
+        if (bankBranchRequest.getBranchId() == null) {
+            bankBranchCount = bankBranchRepository.getCountByBankBranchAndCodeAndDeletedDateAndBank(bankBranchRequest.getBranchCode(), bankBranchRequest.getBankId());
+            if (bankBranchCount > 0) {
+                throw new RuleException("شعبه ای با این اطلاعات قبلا ثبت شده است.");
+            }
+        } else {
+            bankBranchCount = bankBranchRepository.getCountBankBranchByCodeAndBankIdAndDeletedDate(bankBranchRequest.getBranchCode(), bankBranchRequest.getBranchId(), bankBranchRequest.getBankId());
+            if (bankBranchCount > 0) {
+                throw new RuleException("شعبه ای با این اطلاعات قبلا ثبت شده است.");
+            }
+            if (!bankBranchRequest.getActiveFlag()) {
                 bankBranch.setDisableDate(new Date());
             } else {
                 bankBranch.setDisableDate(null);
             }
-
         }
-        Long bankBranchCount = bankBranchRepository.getCountByBankBranchAndCodeAndDeletedDateAndBank(bankBranchRequest.getBranchCode(), bankBranchRequest.getBankId());
-        if (bankBranchCount > 0) {
-            throw new RuleException("شعبه ای با این اطلاعات قبلا ثبت شده است.");
-        }
-
         bankBranch.setBank(bankRepository.getOne(bankBranchRequest.getBankId()));
         bankBranch.setCode(bankBranchRequest.getBranchCode());
         bankBranch.setName(bankBranchRequest.getBranchName());
@@ -124,16 +136,6 @@ public class DefaultBankBranch implements BankBranchService {
         }
 
     }
-
-//    List<CentricPersonRole> centricPersonRoles = centricPersonRoleRepository.findByCentricAccountId(centricAccountId);
-//    CentricAccount centricAccount;
-//        if (!centricPersonRoles.isEmpty()) {
-//        centricPersonRoles.forEach(e -> e.setDeletedDate(LocalDateTime.now()));
-//    }
-//    centricAccount = centricAccountRepository.findById(centricAccountId).orElseThrow(() -> new RuleException("fin.ruleException.notFoundId"));
-//        centricAccount.setDeletedDate(LocalDateTime.now());
-//        return true;
-//}
 
 }
 

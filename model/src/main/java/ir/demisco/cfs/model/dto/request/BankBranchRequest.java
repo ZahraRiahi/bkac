@@ -11,7 +11,7 @@ public class BankBranchRequest {
     private String faxNumber;
     private String boxCode;
     private String postCode;
-    private Long activeFlag;
+    private Boolean activeFlag;
     private String branchAddress;
 
     public Long getBankId() {
@@ -78,11 +78,11 @@ public class BankBranchRequest {
         this.postCode = postCode;
     }
 
-    public Long getActiveFlag() {
+    public Boolean getActiveFlag() {
         return activeFlag;
     }
 
-    public void setActiveFlag(Long activeFlag) {
+    public void setActiveFlag(Boolean activeFlag) {
         this.activeFlag = activeFlag;
     }
 

@@ -41,8 +41,8 @@ public class BankBranchListProvider implements GridDataProvider {
             Object[] array = (Object[]) object;
 
             return BankBranchListResponse.builder()
-                    .branchId((Long) array[0])
-                    .bankId((Long) array[1])
+                    .branchId((Long) array[1])
+                    .bankId((Long) array[0])
                     .branchName((String) array[3])
                     .branchCode((String) array[2])
                     .telNumber((String) array[4])
@@ -50,7 +50,7 @@ public class BankBranchListProvider implements GridDataProvider {
                     .boxCode((String) array[6])
                     .postCode((String) array[7])
                     .disableDate((Date) array[8])
-                    .activeFlag(0L)
+                    .activeFlag(false)
                     .branchAddress((String) array[9])
                     .build();
         }).collect(Collectors.toList());
