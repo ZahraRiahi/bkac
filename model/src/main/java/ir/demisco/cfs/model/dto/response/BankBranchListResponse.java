@@ -12,7 +12,7 @@ public class BankBranchListResponse {
     private String boxCode;
     private String postCode;
     private Date disableDate;
-    private Long activeFlag;
+    private Boolean activeFlag;
     private String branchAddress;
 
     public Long getBankId() {
@@ -87,11 +87,11 @@ public class BankBranchListResponse {
         this.disableDate = disableDate;
     }
 
-    public Long getActiveFlag() {
+    public Boolean getActiveFlag() {
         return activeFlag;
     }
 
-    public void setActiveFlag(Long activeFlag) {
+    public void setActiveFlag(Boolean activeFlag) {
         this.activeFlag = activeFlag;
     }
 
@@ -162,7 +162,7 @@ public class BankBranchListResponse {
             return this;
         }
 
-        public Builder activeFlag(Long activeFlag) {
+        public Builder activeFlag(Boolean activeFlag) {
             bankBranchListResponse.setActiveFlag(activeFlag);
             return this;
         }
