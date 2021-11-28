@@ -48,6 +48,7 @@ public class DefaultBank implements BankService {
     public Boolean saveBank(BankSaveRequest bankSaveRequest) {
 
         Bank bank = bankRepository.findById(bankSaveRequest.getBankId() == null ? 0 : bankSaveRequest.getBankId()).orElse(new Bank());
+        Long bankCount;
         if (bankSaveRequest.getBankId() != null) {
             if (bankSaveRequest.getActiveFlag().equals(true)) {
                 bank.setDisableDate(new Date());
@@ -55,9 +56,17 @@ public class DefaultBank implements BankService {
                 bank.setDisableDate(null);
             }
         }
-        Long bankCount = bankRepository.getCountByBankAndCodeAndDeletedDate(bankSaveRequest.getBankCode());
-        if (bankCount > 0) {
-            throw new RuleException("بانکی با این اطلاعات قبلا ثبت شده است.");
+
+        if (bank.getId() == null) {
+            bankCount = bankRepository.getCountByBankAndCodeAndDeletedDate(bankSaveRequest.getBankCode());
+            if (bankCount > 0) {
+                throw new RuleException("بانکی با این اطلاعات قبلا ثبت شده است.");
+            }
+        } else {
+            bankCount = bankRepository.getCountBankByCodeAndIdAndDeletedDate(bankSaveRequest.getBankCode(), bankSaveRequest.getBankId());
+            if (bankCount > 0) {
+                throw new RuleException("بانکی با این اطلاعات قبلا ثبت شده است.");
+            }
         }
         bank.setCode(bankSaveRequest.getBankCode());
         bank.setName(bankSaveRequest.getBankName());
