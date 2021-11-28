@@ -1,13 +1,11 @@
 package ir.demisco.cfs.service.impl;
 
+import ir.demisco.cfs.model.dto.request.BankBranchChangeStatusRequest;
 import ir.demisco.cfs.model.dto.request.BankBranchGetRequest;
 import ir.demisco.cfs.model.dto.request.BankBranchRequest;
 import ir.demisco.cfs.model.dto.response.BankBranchGetResponse;
 import ir.demisco.cfs.model.dto.response.BankBranchListResponse;
-import ir.demisco.cfs.model.entity.Bank;
-import ir.demisco.cfs.model.entity.BankAccount;
-import ir.demisco.cfs.model.entity.BankBranch;
-import ir.demisco.cfs.model.entity.CentricPersonRole;
+import ir.demisco.cfs.model.entity.*;
 import ir.demisco.cfs.service.api.BankBranchService;
 import ir.demisco.cfs.service.repository.BankAccountRepository;
 import ir.demisco.cfs.service.repository.BankBranchRepository;
@@ -16,6 +14,7 @@ import ir.demisco.cloud.core.middle.exception.RuleException;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceRequest;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceResult;
 import ir.demisco.cloud.core.middle.service.business.api.core.GridFilterService;
+import ir.demisco.cloud.core.security.util.SecurityHelper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -85,13 +84,6 @@ public class DefaultBankBranch implements BankBranchService {
         if (bankBranchRequest.getBranchName() == null) {
             throw new RuleException("لطفا نام شعبه را وارد نمایید.");
         }
-//        if (bankBranchRequest.getBranchId() != null) {
-//            if (bankBranchRequest.getActiveFlag().equals(false)) {
-//                bankBranch.setDisableDate(new Date());
-//            } else {
-//                bankBranch.setDisableDate(null);
-//            }
-//        }
 
         if (bankBranchRequest.getBranchId() == null) {
             bankBranchCount = bankBranchRepository.getCountByBankBranchAndCodeAndDeletedDateAndBank(bankBranchRequest.getBranchCode(), bankBranchRequest.getBankId());
@@ -135,6 +127,21 @@ public class DefaultBankBranch implements BankBranchService {
             return true;
         }
 
+    }
+
+    @Override
+    @Transactional(rollbackOn = Throwable.class)
+    public Boolean getBankBranchChangeStatus(BankBranchChangeStatusRequest bankBranchChangeStatusRequest) {
+        if (bankBranchChangeStatusRequest.getBranchId() == null || bankBranchChangeStatusRequest.getActiveFlag() == null) {
+            throw new RuleException("fin.bankBranch.changeStatus");
+        }
+        BankBranch bankBranch = bankBranchRepository.findById(bankBranchChangeStatusRequest.getBranchId() == null ? 0 : bankBranchChangeStatusRequest.getBranchId()).orElse(new BankBranch());
+        if (!bankBranchChangeStatusRequest.getActiveFlag()) {
+            bankBranch.setDisableDate(new Date());
+        } else {
+            bankBranch.setDisableDate(null);
+        }
+        return true;
     }
 
 }

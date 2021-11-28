@@ -1,8 +1,8 @@
 package ir.demisco.cfs.app.web.controller;
 
+import ir.demisco.cfs.model.dto.request.BankBranchChangeStatusRequest;
 import ir.demisco.cfs.model.dto.request.BankBranchGetRequest;
 import ir.demisco.cfs.model.dto.request.BankBranchRequest;
-import ir.demisco.cfs.model.dto.request.BankSaveRequest;
 import ir.demisco.cfs.model.dto.response.BankBranchGetResponse;
 import ir.demisco.cfs.service.api.BankBranchService;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceRequest;
@@ -42,6 +42,12 @@ public class BankBranchController {
     public ResponseEntity<Boolean> deleteBankBranch(@PathVariable("id") Long bankBranchId) {
         boolean result;
         result = bankBranchService.deleteBankBranch(bankBranchId);
+        return ResponseEntity.ok(result);
+    }
+    @PostMapping("/ChangeStatus")
+    public ResponseEntity<Boolean> getBankBranchChangeStatus(@RequestBody BankBranchChangeStatusRequest bankBranchChangeStatusRequest) {
+        boolean result;
+        result = bankBranchService.getBankBranchChangeStatus(bankBranchChangeStatusRequest);
         return ResponseEntity.ok(result);
     }
 }

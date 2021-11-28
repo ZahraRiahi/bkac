@@ -1,5 +1,6 @@
 package ir.demisco.cfs.service.api;
 
+import ir.demisco.cfs.model.dto.request.BankBranchChangeStatusRequest;
 import ir.demisco.cfs.model.dto.request.BankBranchGetRequest;
 import ir.demisco.cfs.model.dto.request.BankBranchRequest;
 import ir.demisco.cfs.model.dto.response.BankBranchGetResponse;
@@ -16,4 +17,8 @@ public interface BankBranchService {
     Boolean saveBankBranch(BankBranchRequest bankBranchRequest);
 
     Boolean deleteBankBranch(Long bankBranchId);
+
+    Boolean getBankBranchChangeStatus(BankBranchChangeStatusRequest bankBranchChangeStatusRequest);
+
+
 }
