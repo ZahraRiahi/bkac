@@ -1,12 +1,14 @@
 package ir.demisco.cfs.model.entity;
 
+import ir.demisco.cloud.basic.model.entity.domain.AuditModel;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
 @Table(name = "cheque_Book_Type", schema = "bkac")
-public class ChequeBookType {
+public class ChequeBookType extends AuditModel<Long> {
     private Long id;
     private String description;
     private Boolean flagRemit;
