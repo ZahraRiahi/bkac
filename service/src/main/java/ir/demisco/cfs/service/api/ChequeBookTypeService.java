@@ -10,4 +10,5 @@ public interface ChequeBookTypeService {
 
     Boolean saveChequeBookType(ChequeBookTypeRequest chequeBookTypeRequest);
 
+    Boolean deleteChequeBookType(Long chequeBookTypeId);
 }

@@ -2,9 +2,11 @@ package ir.demisco.cfs.service.impl;
 
 import ir.demisco.cfs.model.dto.request.ChequeBookTypeRequest;
 import ir.demisco.cfs.model.dto.response.ChequeBookTypeListResponse;
+import ir.demisco.cfs.model.entity.ChequeBook;
 import ir.demisco.cfs.model.entity.ChequeBookType;
 import ir.demisco.cfs.service.api.ChequeBookTypeService;
 import ir.demisco.cfs.service.repository.BankRepository;
+import ir.demisco.cfs.service.repository.ChequeBookRepository;
 import ir.demisco.cfs.service.repository.ChequeBookTypeRepository;
 import ir.demisco.cloud.core.middle.exception.RuleException;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceRequest;
@@ -13,6 +15,7 @@ import ir.demisco.cloud.core.middle.service.business.api.core.GridFilterService;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,12 +27,14 @@ public class DefaultChequeBookType implements ChequeBookTypeService {
     private final ChequeBookTypeListProvider chequeBookTypeListProvider;
     private final ChequeBookTypeRepository chequeBookTypeRepository;
     private final BankRepository bankRepository;
+    private final ChequeBookRepository chequeBookRepository;
 
-    public DefaultChequeBookType(GridFilterService gridFilterService, ChequeBookTypeListProvider chequeBookTypeListProvider, ChequeBookTypeRepository chequeBookTypeRepository, BankRepository bankRepository) {
+    public DefaultChequeBookType(GridFilterService gridFilterService, ChequeBookTypeListProvider chequeBookTypeListProvider, ChequeBookTypeRepository chequeBookTypeRepository, BankRepository bankRepository, ChequeBookRepository chequeBookRepository) {
         this.gridFilterService = gridFilterService;
         this.chequeBookTypeListProvider = chequeBookTypeListProvider;
         this.chequeBookTypeRepository = chequeBookTypeRepository;
         this.bankRepository = bankRepository;
+        this.chequeBookRepository = chequeBookRepository;
     }
 
     @Override
@@ -76,4 +81,25 @@ public class DefaultChequeBookType implements ChequeBookTypeService {
         chequeBookTypeRepository.save(chequeBookType);
         return true;
     }
+
+    @Override
+    @Transactional(rollbackOn = Throwable.class)
+    public Boolean deleteChequeBookType(Long chequeBookTypeId) {
+        List<ChequeBook> chequeBooks = chequeBookRepository.findByChequeBookTypeId(chequeBookTypeId);
+        ChequeBookType chequeBookType;
+        if (!chequeBooks.isEmpty()) {
+            throw new RuleException("fin.chequeBookType.delete");
+        } else {
+            chequeBookType = chequeBookTypeRepository.findById(chequeBookTypeId).orElseThrow(() -> new RuleException("fin.ruleException.notFoundId"));
+            if (chequeBookType.getDeletedDate() == null) {
+                chequeBookType.setDeletedDate(LocalDateTime.now());
+            }else{
+                throw new RuleException("fin.chequeBookType.deleteIsNull");
+            }
+
+            chequeBookTypeRepository.save(chequeBookType);
+            return true;
+        }
+    }
 }
+

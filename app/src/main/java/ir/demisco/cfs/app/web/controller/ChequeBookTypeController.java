@@ -1,15 +1,11 @@
 package ir.demisco.cfs.app.web.controller;
 
-import ir.demisco.cfs.model.dto.request.BankBranchRequest;
 import ir.demisco.cfs.model.dto.request.ChequeBookTypeRequest;
 import ir.demisco.cfs.service.api.ChequeBookTypeService;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceRequest;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceResult;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api-chequeBookType")
@@ -32,5 +28,11 @@ public class ChequeBookTypeController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/Delete/{id}")
+    public ResponseEntity<Boolean> deleteChequeBookType(@PathVariable("id") Long chequeBookTypeId) {
+        boolean result;
+        result = chequeBookTypeService.deleteChequeBookType(chequeBookTypeId);
+        return ResponseEntity.ok(result);
+    }
 
 }
