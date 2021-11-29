@@ -23,7 +23,6 @@ public class BankController {
     public ResponseEntity<DataSourceResult> bankListResponseEntity(@RequestBody DataSourceRequest dataSourceRequest) {
         return ResponseEntity.ok(bankService.getListBank(dataSourceRequest));
     }
-
     @PostMapping("/Save")
     public ResponseEntity<Boolean> saveBank(@RequestBody BankSaveRequest bankSaveRequest) {
         boolean result;
