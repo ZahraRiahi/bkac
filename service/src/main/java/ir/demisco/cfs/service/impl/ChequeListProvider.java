@@ -32,7 +32,8 @@ public class ChequeListProvider implements GridDataProvider {
                 filterContext.getPath("amount"),
                 filterContext.getPath("flagRemit"),
                 filterContext.getPath("chequeBook.id"),
-                filterContext.getPath("chequeStatus.id")
+                filterContext.getPath("chequeStatus.id"),
+                filterContext.getPath("chequeStatus.description")
         );
     }
 
@@ -53,6 +54,7 @@ public class ChequeListProvider implements GridDataProvider {
                     .flagRemit((Boolean) array[8])
                     .chequeBookId((Long) array[9])
                     .chequeStatusId((Long) array[10])
+                    .chequeStatusDescription((String) array[11])
                     .build();
         }).collect(Collectors.toList());
     }
