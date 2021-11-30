@@ -11,4 +11,5 @@ public interface ChequeBookRepository extends JpaRepository<ChequeBook, Long> {
     @Query("select cb from  ChequeBook cb where cb.chequeBookType.id=:chequeBookTypeId and cb.deletedDate is null")
     List<ChequeBook> findByChequeBookTypeId(Long chequeBookTypeId);
 
+
 }
