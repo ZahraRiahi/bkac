@@ -1,6 +1,9 @@
 package ir.demisco.cfs.service.impl;
 
+import ir.demisco.cfs.model.dto.request.BankBranchChangeStatusRequest;
+import ir.demisco.cfs.model.dto.request.ChequeBookChangeStatusRequest;
 import ir.demisco.cfs.model.dto.response.ChequeBookListResponse;
+import ir.demisco.cfs.model.entity.BankBranch;
 import ir.demisco.cfs.model.entity.Cheque;
 import ir.demisco.cfs.model.entity.ChequeBook;
 import ir.demisco.cfs.service.api.ChequeBookService;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -67,6 +71,25 @@ public class DefaultChequeBook implements ChequeBookService {
             return true;
         }
 
+    }
+
+    @Override
+    @Transactional(rollbackOn = Throwable.class)
+    public Boolean getChequeBookChangeStatus(ChequeBookChangeStatusRequest chequeBookChangeStatusRequest) {
+        if (chequeBookChangeStatusRequest.getChequeBookId() == null || chequeBookChangeStatusRequest.getActiveFlag() == null) {
+            throw new RuleException("fin.chequeBook.changeStatus");
+        }
+        ChequeBook chequeBook = chequeBookRepository.findById(chequeBookChangeStatusRequest.getChequeBookId() == null ? 0 : chequeBookChangeStatusRequest.getChequeBookId()).orElse(new ChequeBook());
+        List<Cheque> chequeList = chequeRepository.findByChequeBookId(chequeBookChangeStatusRequest.getChequeBookId());
+        if (!chequeBookChangeStatusRequest.getActiveFlag()) {
+            chequeBook.setDisableDate(new Date());
+            chequeList.forEach(e -> e.setDisableDate(new Date()));
+        } else {
+            chequeBook.setDisableDate(null);
+            chequeList.forEach(e -> e.setDisableDate(null));
+        }
+
+        return true;
     }
 
 }

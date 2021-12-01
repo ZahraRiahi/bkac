@@ -4,6 +4,7 @@ import ir.demisco.cloud.basic.model.entity.domain.AuditModel;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "cheque", schema = "bkac")
@@ -19,6 +20,7 @@ public class Cheque extends AuditModel<Long> {
     private ChequeBook chequeBook;
     private ChequeStatus chequeStatus;
     private LocalDateTime deletedDate;
+    private Date disableDate;
 
     @Id
     @SequenceGenerator(schema = "bkac", name = "cheque_generator", sequenceName = "sq_cheque", allocationSize = 50)
@@ -122,5 +124,13 @@ public class Cheque extends AuditModel<Long> {
 
     public void setDeletedDate(LocalDateTime deletedDate) {
         this.deletedDate = deletedDate;
+    }
+    @Column(name = "DISABLE_DATE")
+    public Date getDisableDate() {
+        return disableDate;
+    }
+
+    public void setDisableDate(Date disableDate) {
+        this.disableDate = disableDate;
     }
 }
