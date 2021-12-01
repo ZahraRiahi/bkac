@@ -1,6 +1,5 @@
 package ir.demisco.cfs.service.impl;
 
-import ir.demisco.cfs.model.dto.response.BankListResponse;
 import ir.demisco.cfs.model.dto.response.ChequeBookTypeListResponse;
 import ir.demisco.cfs.model.entity.ChequeBookType;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceRequest;

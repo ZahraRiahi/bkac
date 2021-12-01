@@ -1,7 +1,5 @@
 package ir.demisco.cfs.model.dto.request;
 
-import java.util.Date;
-
 public class BankBranchRequest {
     private Long bankId;
     private Long branchId;
