@@ -15,5 +15,8 @@ public interface ChequeRepository extends JpaRepository<Cheque, Long> {
     Long findByChequeAndChequeBookIdAndChequeStatusId(Long chequeBookId);
 
     List<Cheque> findByChequeBookId(Long chequeBookId);
+    @Query("select coalesce(COUNT(c.id),0) from  Cheque c where c.chequeNumber=:chequeNumber and c.deletedDate is null and c.chequeBook.id=:chequeBookId")
+    List<Long> findByChequeBookAndChequeNumberAndChequeBookId(Long chequeNumber, Long chequeBookId);
+
 
 }
