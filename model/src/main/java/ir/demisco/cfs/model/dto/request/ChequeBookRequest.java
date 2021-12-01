@@ -22,7 +22,6 @@ public class ChequeBookRequest {
         this.chequeBookId = chequeBookId;
     }
 
-//    @Size(max = 1, message = "لطفا اولین شماره تک رقمی باشد")
     @NotNull(message = "لطفا اولین شماره را وارد نمایید")
     public Long getNumStart() {
         return numStart;
@@ -32,7 +31,6 @@ public class ChequeBookRequest {
         this.numStart = numStart;
     }
 
-//    @Size(max = 1, message = "لطفا آخرین شماره تک رقمی باشد")
     @NotNull(message = "لطفا آخرین شماره را وارد نمایید.")
     public Long getNumEnd() {
         return numEnd;
