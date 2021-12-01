@@ -14,6 +14,7 @@ public class ChequeListResponse {
     private Boolean flagRemit;
     private Long chequeBookId;
     private Long chequeStatusId;
+    private String chequeStatusDescription;
 
     public Long getChequeId() {
         return chequeId;
@@ -103,6 +104,14 @@ public class ChequeListResponse {
         this.chequeStatusId = chequeStatusId;
     }
 
+    public String getChequeStatusDescription() {
+        return chequeStatusDescription;
+    }
+
+    public void setChequeStatusDescription(String chequeStatusDescription) {
+        this.chequeStatusDescription = chequeStatusDescription;
+    }
+
     public static ChequeListResponse.Builder builder() {
         return new ChequeListResponse.Builder();
     }
@@ -170,6 +179,11 @@ public class ChequeListResponse {
 
         public Builder chequeStatusId(Long chequeStatusId) {
             chequeListResponse.setChequeStatusId(chequeStatusId);
+            return this;
+        }
+
+        public Builder chequeStatusDescription(String chequeStatusDescription) {
+            chequeListResponse.setChequeStatusDescription(chequeStatusDescription);
             return this;
         }
 

@@ -1,5 +1,6 @@
 package ir.demisco.cfs.app.web.controller;
 
+import ir.demisco.cfs.model.dto.request.ChequeChangeStatusRequest;
 import ir.demisco.cfs.service.api.ChequeService;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceRequest;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceResult;
@@ -23,4 +24,10 @@ public class ChequeController {
         return ResponseEntity.ok(chequeService.getListCheque(dataSourceRequest));
     }
 
+    @PostMapping("/Update")
+    public ResponseEntity<Boolean> updateChequeChangeStatus(@RequestBody ChequeChangeStatusRequest chequeChangeStatusRequest) {
+        boolean result;
+        result = chequeService.updateChequeChangeStatus(chequeChangeStatusRequest);
+        return ResponseEntity.ok(result);
+    }
 }
