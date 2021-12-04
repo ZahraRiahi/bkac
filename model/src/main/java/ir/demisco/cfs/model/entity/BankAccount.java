@@ -13,7 +13,7 @@ public class BankAccount {
     private String code;
     private String description;
     private MoneyType moneyType;
-    private BankAccountType BankAccountType;
+    private BankAccountType bankAccountType;
     private String accountOwnerName;
     private String accountCodeSheba;
     private Bank bank;
@@ -71,11 +71,11 @@ public class BankAccount {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BANK_ACCOUNT_TYPE_ID")
     public BankAccountType getBankAccountType() {
-        return BankAccountType;
+        return bankAccountType;
     }
 
     public void setBankAccountType(BankAccountType bankAccountType) {
-        BankAccountType = bankAccountType;
+        this.bankAccountType = bankAccountType;
     }
 
     @Column(name = "ACCOUNT_OWNER_NAME")
