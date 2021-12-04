@@ -4,5 +4,5 @@ import ir.demisco.cloud.core.middle.model.dto.DataSourceRequest;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceResult;
 
 public interface BankAccountService {
-    DataSourceResult getListBankAccount(DataSourceRequest dataSourceRequest);
+//    DataSourceResult getListBankAccount(DataSourceRequest dataSourceRequest);
 }
