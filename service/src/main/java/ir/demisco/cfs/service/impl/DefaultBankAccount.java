@@ -21,25 +21,25 @@ public class DefaultBankAccount implements BankAccountService {
         this.bankAccountListProvider = bankAccountListProvider;
     }
 
-    @Override
-    @Transactional
-    public DataSourceResult getListBankAccount(DataSourceRequest dataSourceRequest) {
-        dataSourceRequest.getFilter().getFilters().add(DataSourceRequest.FilterDescriptor.create("deletedDate", null, DataSourceRequest.Operators.IS_NULL));
-        dataSourceRequest.getFilter().getFilters().add(DataSourceRequest.FilterDescriptor.create("bank.deletedDate", null, DataSourceRequest.Operators.IS_NULL));
-        dataSourceRequest.getFilter().getFilters().add(DataSourceRequest.FilterDescriptor.create("bankBranch.deletedDate", null, DataSourceRequest.Operators.IS_NULL));
-        dataSourceRequest.getFilter().getFilters().add(DataSourceRequest.FilterDescriptor.create("financialAccount.deletedDate", null, DataSourceRequest.Operators.IS_NULL));
-        dataSourceRequest.getFilter().getFilters().add(DataSourceRequest.FilterDescriptor.create("bankAccountType.deletedDate", null, DataSourceRequest.Operators.IS_NULL));
-        dataSourceRequest.getFilter().getFilters().add(DataSourceRequest.FilterDescriptor.create("moneyType.deletedDate", null, DataSourceRequest.Operators.IS_NULL));
-        DataSourceResult dataSourceResult = gridFilterService.filter(dataSourceRequest, bankAccountListProvider);
-        List<BankAccountListResponse> data = (List<BankAccountListResponse>) dataSourceResult.getData();
-        List<BankAccountListResponse> bankAccountListResponses = new ArrayList<>();
-        for (BankAccountListResponse bankAccountListResponse : data) {
-            if (bankAccountListResponse.getDisableDate() == null) bankAccountListResponse.setActiveFlag(true);
-            bankAccountListResponses.add(bankAccountListResponse);
-        }
-        dataSourceResult.setData(bankAccountListResponses);
-        return dataSourceResult;
-    }
+//    @Override
+//    @Transactional
+//    public DataSourceResult getListBankAccount(DataSourceRequest dataSourceRequest) {
+//        dataSourceRequest.getFilter().getFilters().add(DataSourceRequest.FilterDescriptor.create("deletedDate", null, DataSourceRequest.Operators.IS_NULL));
+//        dataSourceRequest.getFilter().getFilters().add(DataSourceRequest.FilterDescriptor.create("bank.deletedDate", null, DataSourceRequest.Operators.IS_NULL));
+//        dataSourceRequest.getFilter().getFilters().add(DataSourceRequest.FilterDescriptor.create("bankBranch.deletedDate", null, DataSourceRequest.Operators.IS_NULL));
+//        dataSourceRequest.getFilter().getFilters().add(DataSourceRequest.FilterDescriptor.create("financialAccount.deletedDate", null, DataSourceRequest.Operators.IS_NULL));
+//        dataSourceRequest.getFilter().getFilters().add(DataSourceRequest.FilterDescriptor.create("bankAccountType.deletedDate", null, DataSourceRequest.Operators.IS_NULL));
+//        dataSourceRequest.getFilter().getFilters().add(DataSourceRequest.FilterDescriptor.create("moneyType.deletedDate", null, DataSourceRequest.Operators.IS_NULL));
+//        DataSourceResult dataSourceResult = gridFilterService.filter(dataSourceRequest, bankAccountListProvider);
+//        List<BankAccountListResponse> data = (List<BankAccountListResponse>) dataSourceResult.getData();
+//        List<BankAccountListResponse> bankAccountListResponses = new ArrayList<>();
+//        for (BankAccountListResponse bankAccountListResponse : data) {
+//            if (bankAccountListResponse.getDisableDate() == null) bankAccountListResponse.setActiveFlag(true);
+//            bankAccountListResponses.add(bankAccountListResponse);
+//        }
+//        dataSourceResult.setData(bankAccountListResponses);
+//        return dataSourceResult;
+//    }
 }
 
 
