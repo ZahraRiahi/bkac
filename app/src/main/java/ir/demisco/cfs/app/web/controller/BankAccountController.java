@@ -18,8 +18,8 @@ public class BankAccountController {
         this.bankAccountService = bankAccountService;
     }
 
-//    @PostMapping("/List")
-//    public ResponseEntity<DataSourceResult> bankAccountListResponseEntity(@RequestBody DataSourceRequest dataSourceRequest) {
-//        return ResponseEntity.ok(bankAccountService.getListBankAccount(dataSourceRequest));
-//    }
+    @PostMapping("/List")
+    public ResponseEntity<DataSourceResult> bankAccountListResponseEntity(@RequestBody DataSourceRequest dataSourceRequest) {
+        return ResponseEntity.ok(bankAccountService.getListBankAccount(dataSourceRequest));
+    }
 }
