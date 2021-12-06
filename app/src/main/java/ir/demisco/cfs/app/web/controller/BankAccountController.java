@@ -1,5 +1,6 @@
 package ir.demisco.cfs.app.web.controller;
 
+import ir.demisco.cfs.model.dto.request.BankAccountSaveRequest;
 import ir.demisco.cfs.service.api.BankAccountService;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceRequest;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceResult;
@@ -21,5 +22,12 @@ public class BankAccountController {
     @PostMapping("/List")
     public ResponseEntity<DataSourceResult> bankAccountListResponseEntity(@RequestBody DataSourceRequest dataSourceRequest) {
         return ResponseEntity.ok(bankAccountService.getListBankAccount(dataSourceRequest));
+    }
+
+    @PostMapping("/Save")
+    public ResponseEntity<Boolean> saveBankAccount(@RequestBody BankAccountSaveRequest bankAccountSaveRequest) {
+        boolean result;
+        result = bankAccountService.saveBankAccount(bankAccountSaveRequest);
+        return ResponseEntity.ok(result);
     }
 }
