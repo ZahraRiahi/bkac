@@ -1,5 +1,6 @@
 package ir.demisco.cfs.model.entity;
 
+import ir.demisco.cloud.basic.model.entity.domain.AuditModel;
 import ir.demisco.cloud.basic.model.entity.org.Organization;
 
 import javax.persistence.*;
@@ -8,7 +9,7 @@ import java.util.Date;
 
 @Entity(name = "BKACBankAccount")
 @Table(name = "bank_account", schema = "bkac")
-public class BankAccount {
+public class BankAccount extends AuditModel<Long> {
     private Long id;
     private String code;
     private String description;
