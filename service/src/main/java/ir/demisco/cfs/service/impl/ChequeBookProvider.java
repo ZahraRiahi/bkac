@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Selection;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,7 +31,8 @@ public class ChequeBookProvider implements GridDataProvider {
                 filterContext.getPath("bankAccount.id"),
                 filterContext.getPath("chequeBookType.id"),
                 filterContext.getPath("chequeBookType.description"),
-                filterContext.getPath("chequeBookType.chequeCount")
+                filterContext.getPath("chequeBookType.chequeCount"),
+                filterContext.getPath("chequeBookDate")
         );
     }
 
@@ -50,6 +52,7 @@ public class ChequeBookProvider implements GridDataProvider {
                     .chequeBookTypeDescription((String) array[7])
                     .activeFlag(false)
                     .chequeCount((Long) array[8])
+                    .chequeBookDate((LocalDateTime) array[9])
                     .build();
         }).collect(Collectors.toList());
     }
