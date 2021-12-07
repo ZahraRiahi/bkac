@@ -1,5 +1,6 @@
 package ir.demisco.cfs.model.dto.response;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class ChequeBookListResponse {
@@ -13,6 +14,7 @@ public class ChequeBookListResponse {
     private String chequeBookTypeDescription;
     private Boolean activeFlag;
     private Long chequeCount;
+    private LocalDateTime chequeBookDate;
 
     public Long getChequeBookId() {
         return chequeBookId;
@@ -94,6 +96,14 @@ public class ChequeBookListResponse {
         this.chequeCount = chequeCount;
     }
 
+    public LocalDateTime getChequeBookDate() {
+        return chequeBookDate;
+    }
+
+    public void setChequeBookDate(LocalDateTime chequeBookDate) {
+        this.chequeBookDate = chequeBookDate;
+    }
+
     public static ChequeBookListResponse.Builder builder() {
         return new ChequeBookListResponse.Builder();
     }
@@ -158,7 +168,10 @@ public class ChequeBookListResponse {
             chequeBookListResponse.setChequeCount(chequeCount);
             return this;
         }
-
+        public Builder chequeBookDate(LocalDateTime chequeBookDate) {
+            chequeBookListResponse.setChequeBookDate(chequeBookDate);
+            return this;
+        }
         public ChequeBookListResponse build() {
             return chequeBookListResponse;
         }
