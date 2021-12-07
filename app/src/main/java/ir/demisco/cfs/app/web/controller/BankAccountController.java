@@ -1,6 +1,8 @@
 package ir.demisco.cfs.app.web.controller;
 
+import ir.demisco.cfs.model.dto.request.BankAccountChangeStatusRequest;
 import ir.demisco.cfs.model.dto.request.BankAccountSaveRequest;
+import ir.demisco.cfs.model.dto.request.BankBranchChangeStatusRequest;
 import ir.demisco.cfs.service.api.BankAccountService;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceRequest;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceResult;
@@ -28,6 +30,12 @@ public class BankAccountController {
     public ResponseEntity<Boolean> saveBankAccount(@RequestBody BankAccountSaveRequest bankAccountSaveRequest) {
         boolean result;
         result = bankAccountService.saveBankAccount(bankAccountSaveRequest);
+        return ResponseEntity.ok(result);
+    }
+    @PostMapping("/ChangeStatus")
+    public ResponseEntity<Boolean> getBankAccountChangeStatus(@RequestBody BankAccountChangeStatusRequest bankAccountChangeStatusRequest) {
+        boolean result;
+        result = bankAccountService.getBankAccountChangeStatus(bankAccountChangeStatusRequest);
         return ResponseEntity.ok(result);
     }
 }

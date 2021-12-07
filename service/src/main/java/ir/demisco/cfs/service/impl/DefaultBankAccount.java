@@ -1,8 +1,10 @@
 package ir.demisco.cfs.service.impl;
 
+import ir.demisco.cfs.model.dto.request.BankAccountChangeStatusRequest;
 import ir.demisco.cfs.model.dto.request.BankAccountSaveRequest;
 import ir.demisco.cfs.model.dto.response.BankAccountListResponse;
 import ir.demisco.cfs.model.entity.BankAccount;
+import ir.demisco.cfs.model.entity.BankBranch;
 import ir.demisco.cfs.service.api.BankAccountService;
 import ir.demisco.cfs.service.repository.*;
 import ir.demisco.cloud.core.middle.exception.RuleException;
@@ -149,6 +151,21 @@ public class DefaultBankAccount implements BankAccountService {
         bankAccount.setRelatedFlag(bankAccountSaveRequest.getRelatedFlag());
         bankAccount.setDefaultFlag(bankAccountSaveRequest.getDefaultFlag());
         bankAccountRepository.save(bankAccount);
+        return true;
+    }
+
+    @Override
+    @Transactional(rollbackOn = Throwable.class)
+    public Boolean getBankAccountChangeStatus(BankAccountChangeStatusRequest bankAccountChangeStatusRequest) {
+        if (bankAccountChangeStatusRequest.getBankAccountId() == null || bankAccountChangeStatusRequest.getActiveFlag() == null) {
+            throw new RuleException("fin.bankAccount.changeStatus");
+        }
+        BankAccount bankAccount = bankAccountRepository.findById(bankAccountChangeStatusRequest.getBankAccountId() == null ? 0 : bankAccountChangeStatusRequest.getBankAccountId()).orElse(new BankAccount());
+        if (!bankAccountChangeStatusRequest.getActiveFlag()) {
+            bankAccount.setDisableDate(new Date());
+        } else {
+            bankAccount.setDisableDate(null);
+        }
         return true;
     }
 }
