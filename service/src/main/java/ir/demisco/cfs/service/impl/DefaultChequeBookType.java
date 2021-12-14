@@ -57,13 +57,13 @@ public class DefaultChequeBookType implements ChequeBookTypeService {
     public Boolean saveChequeBookType(ChequeBookTypeRequest chequeBookTypeRequest) {
         ChequeBookType chequeBookType = chequeBookTypeRepository.findById(chequeBookTypeRequest.getChequeBookTypeId() == null ? 0 : chequeBookTypeRequest.getChequeBookTypeId()).orElse(new ChequeBookType());
         if (chequeBookTypeRequest.getDescription() == null) {
-            throw new RuleException("لطفا شرح را وارد نمایید.");
+            throw new RuleException("fin.chequeBookType.description");
         }
         if (chequeBookTypeRequest.getFlagRemit() == null) {
-            throw new RuleException("لطفا فیلد خط خوردن حواله کرد را وارد نمایید.");
+            throw new RuleException("fin.chequeBookType.flagRemit");
         }
         if (chequeBookTypeRequest.getChequeCount() == null) {
-            throw new RuleException("لطفا تعداد برگه را وارد نمایید.");
+            throw new RuleException("fin.chequeBookType.chequeCount");
         }
         if (chequeBookTypeRequest.getChequeBookTypeId() != null) {
             if (!chequeBookTypeRequest.getActiveFlag()) {
