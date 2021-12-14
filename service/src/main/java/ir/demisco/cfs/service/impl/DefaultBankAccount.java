@@ -4,7 +4,6 @@ import ir.demisco.cfs.model.dto.request.BankAccountChangeStatusRequest;
 import ir.demisco.cfs.model.dto.request.BankAccountSaveRequest;
 import ir.demisco.cfs.model.dto.response.BankAccountListResponse;
 import ir.demisco.cfs.model.entity.BankAccount;
-import ir.demisco.cfs.model.entity.BankBranch;
 import ir.demisco.cfs.service.api.BankAccountService;
 import ir.demisco.cfs.service.repository.*;
 import ir.demisco.cloud.core.middle.exception.RuleException;
@@ -74,50 +73,50 @@ public class DefaultBankAccount implements BankAccountService {
         Long bankAccountCount;
         bankAccountCount = bankAccountRepository.getCountByBankAccountByCodeAndBankAccountTypeAndBank(bankAccountSaveRequest.getBankAccountCode(), bankAccountSaveRequest.getBankId(), bankAccountSaveRequest.getBankAccountTypeId());
         if (bankAccountCount > 0) {
-            throw new RuleException("حساب بانکی با این اطلاعات قبلا ثبت شده است.");
+            throw new RuleException("fin.bank.uniqueBankAccount");
         }
 
         bankAccountCount = bankAccountRepository.getCountByBankAccountAndAccountCodeSheba(bankAccountSaveRequest.getAccountCodeSheba());
         if (bankAccountCount > 0) {
-            throw new RuleException("حساب بانکی با این اطلاعات قبلا ثبت شده است.");
+            throw new RuleException("fin.bank.uniqueBankAccount");
         }
 
         if (bankAccountSaveRequest.getBankAccountCode() == null) {
-            throw new RuleException("لطفا کد حساب بانکی را وارد نمایید.");
+            throw new RuleException("fin.bankAccount.code");
         }
         if (bankAccountSaveRequest.getDescription() == null) {
-            throw new RuleException("لطفا شرح حساب بانکی را وارد نمایید.");
+            throw new RuleException("fin.bankAccount.description");
         }
         if (bankAccountSaveRequest.getMoneyTypeId() == null) {
-            throw new RuleException("لطفا شناسه نوع پول را وارد نمایید.");
+            throw new RuleException("fin.bankAccount.moneyTypeId");
         }
 
         if (bankAccountSaveRequest.getBankAccountTypeId() == null) {
-            throw new RuleException("لطفا شناسه نوع حساب بانکی را وارد نمایید.");
+            throw new RuleException("fin.bankAccount.bankAccountType");
         }
         if (bankAccountSaveRequest.getAccountCodeSheba() == null) {
-            throw new RuleException("لطفاکد شبا را وارد نمایید.");
+            throw new RuleException("fin.bankAccount.accountCodeSheba");
         }
 
         if (bankAccountSaveRequest.getBankId() == null) {
-            throw new RuleException("لطفا شناسه بانک را وارد نمایید.");
+            throw new RuleException("fin.bankAccount.bankId");
         }
         if (bankAccountSaveRequest.getBankBranchId() == null) {
-            throw new RuleException("لطفا شناسه شعبه بانک را وارد نمایید.");
+            throw new RuleException("fin.bankAccount.bankBranchId");
         }
 
         if (bankAccountSaveRequest.getOrganizationId() == null) {
-            throw new RuleException("لطفا شناسه سازمان را وارد نمایید.");
+            throw new RuleException("fin.bankAccount.organizationId");
         }
         if (bankAccountSaveRequest.getInternetFlag() == null) {
-            throw new RuleException("لطفا فلگ اینترنتی را وارد نمایید.");
+            throw new RuleException("fin.bankAccount.internetFlag");
         }
 
         if (bankAccountSaveRequest.getRelatedFlag() == null) {
-            throw new RuleException("لطفا فیلد وابسته به حساب سپرده را وارد نمایید.");
+            throw new RuleException("fin.bankAccount.relatedFlag");
         }
         if (bankAccountSaveRequest.getDefaultFlag() == null) {
-            throw new RuleException("لطفا فلگ پیش فرض را وارد نمایید.");
+            throw new RuleException("fin.bankAccount.defaultFlag");
         }
         if (bankAccountSaveRequest.getBankAccountId() != null) {
             if (!bankAccountSaveRequest.getActiveFlag()) {

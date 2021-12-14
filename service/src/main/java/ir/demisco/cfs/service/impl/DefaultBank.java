@@ -60,12 +60,12 @@ public class DefaultBank implements BankService {
         if (bank.getId() == null) {
             bankCount = bankRepository.getCountByBankAndCodeAndDeletedDate(bankSaveRequest.getBankCode());
             if (bankCount > 0) {
-                throw new RuleException("بانکی با این اطلاعات قبلا ثبت شده است.");
+                throw new RuleException("fin.bank.uniqueBank");
             }
         } else {
             bankCount = bankRepository.getCountBankByCodeAndIdAndDeletedDate(bankSaveRequest.getBankCode(), bankSaveRequest.getBankId());
             if (bankCount > 0) {
-                throw new RuleException("بانکی با این اطلاعات قبلا ثبت شده است.");
+                throw new RuleException("fin.bank.uniqueBank");
             }
             if (!bankSaveRequest.getActiveFlag()) {
                 bank.setDisableDate(new Date());

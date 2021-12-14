@@ -64,7 +64,7 @@ public class DefaultChequeBook implements ChequeBookService {
         Long cheques = chequeRepository.findByChequeAndChequeBookIdAndChequeStatusId(chequeBookId);
         ChequeBook chequeBook;
         if (cheques != null) {
-            throw new RuleException("برگه های این دسته چک استفاده شده و نمیتوان حذف کرد");
+            throw new RuleException("fin.chequeBook.delete");
         } else {
             chequeBook = chequeBookRepository.findById(chequeBookId).orElseThrow(() -> new RuleException("fin.ruleException.notFoundId"));
             if (chequeBook.getDeletedDate() == null) {
@@ -126,7 +126,7 @@ public class DefaultChequeBook implements ChequeBookService {
                 .forEach(aLong -> {
                     List<Long> chequeUnique = chequeRepository.findByChequeBookAndChequeNumberAndChequeBookId(chequeBookRequest.getNumStart() + (aLong - 1), chequeBookRequest.getChequeBookId());
                     if (chequeUnique.size() > 1) {
-                        throw new RuleException("این برگه چک قبلا ثبت شده است. ");
+                        throw new RuleException("fin.chequeBook.useCheque");
                     }
                     Cheque cheque = new Cheque();
                     cheque.setChequeNumber(chequeBookRequest.getNumStart() + (aLong - 1));

@@ -43,17 +43,17 @@ public class DefaultCheque implements ChequeService {
         oldChequeStatusId = chequeRepository.getChequeStatusByChequeId(chequeChangeStatusRequest.getChequeId());
 
         if (chequeChangeStatusRequest.getChequeId() == 2 && oldChequeStatusId != 1) {
-            throw new RuleException("وضعیت قبلی چک'ایجاد'نمیباشد، امکان تغییر به وضعیت انتخابی وجود ندارد.");
+            throw new RuleException("fin.chequeStatus.equalTwoAndNotEqualOne");
         } else if (chequeChangeStatusRequest.getChequeId() == 3 && oldChequeStatusId != 2) {
-            throw new RuleException("وضعیت قبلی چک'صادر شده نزد حسابداری'نمیباشد، امکان تغییر به وضعیت انتخابی وجود ندارد.");
+            throw new RuleException("fin.chequeStatus.equalThreeAndNotEqualTwo");
         } else if (chequeChangeStatusRequest.getChequeId() == 4 && oldChequeStatusId != 3) {
-            throw new RuleException("وضعیت قبلی چک'تحویل شده'نمیباشد، امکان تغییر به وضعیت انتخابی وجود ندارد.");
+            throw new RuleException("fin.chequeStatus.equalFourAndNotEqualThree");
         } else if (chequeChangeStatusRequest.getChequeId() == 5 && (oldChequeStatusId != 3 || oldChequeStatusId != 4)) {
-            throw new RuleException("وضعیت قبلی چک'تحویل شده'یا 'پاس شده'نمیباشد، امکان تغییر به وضعیت انتخابی وجود ندارد.");
+            throw new RuleException("fin.chequeStatus.equalFiveAndNotEqualThreeOrFour");
         } else if (chequeChangeStatusRequest.getChequeId() == 6 && oldChequeStatusId != 3) {
-            throw new RuleException("وضعیت قبلی چک'تحویل شده'یا 'پاس شده'نمیباشد، امکان تغییر به وضعیت انتخابی وجود ندارد.");
+            throw new RuleException("fin.chequeStatus.equalSixAndNotEqualThree");
         } else if (chequeChangeStatusRequest.getChequeId() == 7 && (oldChequeStatusId != 1 || oldChequeStatusId != 5)) {
-            throw new RuleException("وضعیت قبلی چک'ایجاد'نمیباشد، امکان تغییر به وضعیت انتخابی وجود ندارد.");
+            throw new RuleException("fin.chequeStatus.equalSevenAndNotEqualOneOrFive");
         } else {
             Cheque cheque = chequeRepository.findById(chequeChangeStatusRequest.getChequeId() == null ? 0 : chequeChangeStatusRequest.getChequeId()).orElse(new Cheque());
             if (cheque.getDeletedDate() == null) {
