@@ -2,6 +2,7 @@ package ir.demisco.cfs.service.impl;
 
 import ir.demisco.cfs.model.dto.response.BankAccountListResponse;
 import ir.demisco.cfs.model.entity.BankAccount;
+import ir.demisco.cloud.core.middle.model.dto.DataSourceRequest;
 import ir.demisco.cloud.core.middle.service.business.api.core.GridDataProvider;
 import org.springframework.stereotype.Component;
 import javax.persistence.criteria.*;
@@ -67,5 +68,13 @@ public class BankAccountListProvider implements GridDataProvider {
                     .build();
         }).collect(Collectors.toList());
     }
+    @Override
+    public Predicate getCustomRestriction(FilterContext filterContext) {
+        CriteriaBuilder criteriaBuilder = filterContext.getCriteriaBuilder();
+        Root<Object> root = filterContext.getRoot();
+        Join<Object, Object> financialAccount = root.join("financialAccount", JoinType.LEFT);
+        criteriaBuilder.equal(financialAccount.get("id"), root.get("id"));
 
+        return null;
+    }
 }
