@@ -140,8 +140,7 @@ public class DefaultBankAccount implements BankAccountService {
                 bankAccountRepository.getOne(bankAccountSaveRequest.getSupportAccountId()) : null);
         bankAccount.setCentricAccount(bankAccountSaveRequest.getCentricAccountId() != null ?
                 centricAccountRepository.getOne(bankAccountSaveRequest.getCentricAccountId()) : null);
-//        Long organizationId = SecurityHelper.getCurrentUser().getOrganizationId();
-        Long organizationId = 100L;
+        Long organizationId = SecurityHelper.getCurrentUser().getOrganizationId();
         bankAccount.setOrganization(organizationRepository.getOne(organizationId));
 
         bankAccount.setBankAccountDepartment(bankAccountSaveRequest.getBankAccountDepartmentId() != null ?
