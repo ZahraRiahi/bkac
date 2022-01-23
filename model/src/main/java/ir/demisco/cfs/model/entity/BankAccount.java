@@ -1,5 +1,6 @@
 package ir.demisco.cfs.model.entity;
 
+import ir.demisco.cloud.basic.model.entity.domain.AuditModel;
 import ir.demisco.cloud.basic.model.entity.org.Organization;
 
 import javax.persistence.*;
@@ -8,12 +9,12 @@ import java.util.Date;
 
 @Entity(name = "BKACBankAccount")
 @Table(name = "bank_account", schema = "bkac")
-public class BankAccount {
+public class BankAccount extends AuditModel<Long> {
     private Long id;
     private String code;
     private String description;
     private MoneyType moneyType;
-    private BankAccountType BankAccountType;
+    private BankAccountType bankAccountType;
     private String accountOwnerName;
     private String accountCodeSheba;
     private Bank bank;
@@ -71,11 +72,11 @@ public class BankAccount {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BANK_ACCOUNT_TYPE_ID")
     public BankAccountType getBankAccountType() {
-        return BankAccountType;
+        return bankAccountType;
     }
 
     public void setBankAccountType(BankAccountType bankAccountType) {
-        BankAccountType = bankAccountType;
+        this.bankAccountType = bankAccountType;
     }
 
     @Column(name = "ACCOUNT_OWNER_NAME")

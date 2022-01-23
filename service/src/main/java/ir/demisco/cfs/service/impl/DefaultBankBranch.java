@@ -72,27 +72,27 @@ public class DefaultBankBranch implements BankBranchService {
         BankBranch bankBranch = bankBranchRepository.findById(bankBranchRequest.getBranchId() == null ? 0 : bankBranchRequest.getBranchId()).orElse(new BankBranch());
         Long bankBranchCount;
         if (bankBranchRequest.getBankId() == null) {
-            throw new RuleException("لطفا شناسه ی بانک را وارد نمایید.");
+            throw new RuleException("fin.bankAccount.bankId");
 
         }
         if (bankBranchRequest.getBranchCode() == null) {
-            throw new RuleException("لطفا کد شعبه را وارد نمایید.");
+            throw new RuleException("fin.bankAccount.codeBankBranch");
         }
 
 
         if (bankBranchRequest.getBranchName() == null) {
-            throw new RuleException("لطفا نام شعبه را وارد نمایید.");
+            throw new RuleException("fin.bankAccount.nameBankBranch");
         }
 
         if (bankBranchRequest.getBranchId() == null) {
             bankBranchCount = bankBranchRepository.getCountByBankBranchAndCodeAndDeletedDateAndBank(bankBranchRequest.getBranchCode(), bankBranchRequest.getBankId());
             if (bankBranchCount > 0) {
-                throw new RuleException("شعبه ای با این اطلاعات قبلا ثبت شده است.");
+                throw new RuleException("fin.bankAccount.uniqueBankBranch");
             }
         } else {
             bankBranchCount = bankBranchRepository.getCountBankBranchByCodeAndBankIdAndDeletedDate(bankBranchRequest.getBranchCode(), bankBranchRequest.getBranchId(), bankBranchRequest.getBankId());
             if (bankBranchCount > 0) {
-                throw new RuleException("شعبه ای با این اطلاعات قبلا ثبت شده است.");
+                throw new RuleException("fin.bankAccount.uniqueBankBranch");
             }
             if (!bankBranchRequest.getActiveFlag()) {
                 bankBranch.setDisableDate(new Date());

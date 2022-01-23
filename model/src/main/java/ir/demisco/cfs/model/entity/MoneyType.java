@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "money_type", schema = "bkac")
+@Table(name = "money_type", schema = "fncr")
 public class MoneyType {
     private Long id;
     private String code;
