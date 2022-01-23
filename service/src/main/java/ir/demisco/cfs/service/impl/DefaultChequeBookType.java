@@ -91,14 +91,13 @@ public class DefaultChequeBookType implements ChequeBookTypeService {
             throw new RuleException("fin.chequeBookType.delete");
         } else {
             chequeBookType = chequeBookTypeRepository.findById(chequeBookTypeId).orElseThrow(() -> new RuleException("fin.ruleException.notFoundId"));
-            if (chequeBookType.getDeletedDate() == null) {
-                chequeBookType.setDeletedDate(LocalDateTime.now());
-            }else{
-                throw new RuleException("fin.chequeBookType.deleteIsNull");
+            Long countByIdForDelete = chequeBookTypeRepository.getCountByIdForDelete(chequeBookTypeId);
+            if (countByIdForDelete > 0) {
+                throw new RuleException("fin.chequeBookType.delete");
+            } else {
+                chequeBookTypeRepository.deleteById(chequeBookType.getId());
+                return true;
             }
-
-            chequeBookTypeRepository.save(chequeBookType);
-            return true;
         }
     }
 }
