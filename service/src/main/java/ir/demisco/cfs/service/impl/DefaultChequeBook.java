@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -62,22 +61,15 @@ public class DefaultChequeBook implements ChequeBookService {
     @Transactional(rollbackOn = Throwable.class)
     public Boolean deleteChequeBook(Long chequeBookId) {
         Long cheques = chequeRepository.findByChequeAndChequeBookIdAndChequeStatusId(chequeBookId);
-        ChequeBook chequeBook;
         if (cheques != null) {
             throw new RuleException("fin.chequeBook.delete");
         } else {
-            chequeBook = chequeBookRepository.findById(chequeBookId).orElseThrow(() -> new RuleException("fin.ruleException.notFoundId"));
-            if (chequeBook.getDeletedDate() == null) {
-                chequeBook.setDeletedDate(LocalDateTime.now());
-                List<Cheque> chequeList = chequeRepository.findByChequeBookId(chequeBookId);
-                chequeList.forEach(e -> e.setDeletedDate(LocalDateTime.now()));
-            } else {
-                throw new RuleException("fin.chequeBook.deleteIsNull");
-            }
-            chequeBookRepository.save(chequeBook);
+            List<Cheque> chequeList = chequeRepository.findByChequeBookId(chequeBookId);
+            chequeList.forEach(e -> chequeRepository.deleteById(e.getId()));
+            ChequeBook chequeBook = chequeBookRepository.findById(chequeBookId).orElseThrow(() -> new RuleException("fin.ruleException.notFoundId"));
+            chequeBookRepository.deleteById(chequeBook.getId());
             return true;
         }
-
     }
 
     @Override
