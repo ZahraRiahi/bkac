@@ -121,11 +121,14 @@ public class DefaultBankBranch implements BankBranchService {
             throw new RuleException("fin.bankBranch.delete");
         } else {
             bankBranch = bankBranchRepository.findById(bankBranchId).orElseThrow(() -> new RuleException("fin.ruleException.notFoundId"));
-            bankBranch.setDeletedDate(LocalDateTime.now());
-            bankBranchRepository.save(bankBranch);
+            long countByIdForDelete = bankBranchRepository.getCountByIdForDelete(bankBranch.getId());
+            if (countByIdForDelete > 0) {
+                throw new RuleException("fin.bankBranch.delete");
+            } else {
+                bankBranchRepository.deleteById(bankBranch.getId());
+            }
             return true;
         }
-
     }
 
     @Override
