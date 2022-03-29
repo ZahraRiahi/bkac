@@ -21,7 +21,7 @@ public class FinancialCodingType extends AuditModel<Long> {
     private Long id;
     private String description;
     private Organization organization;
-    private LocalDateTime DeletedDate;
+    private LocalDateTime deletedDate;
 
     @Id
     @SequenceGenerator(schema = "fnac", name = "financial_coding_type_generator", sequenceName = "sq_financial_coding_type", allocationSize = 50)
@@ -54,11 +54,12 @@ public class FinancialCodingType extends AuditModel<Long> {
     }
 
     @Column(name = "DELETED_DATE")
+
     public LocalDateTime getDeletedDate() {
-        return DeletedDate;
+        return deletedDate;
     }
 
     public void setDeletedDate(LocalDateTime deletedDate) {
-        DeletedDate = deletedDate;
+        this.deletedDate = deletedDate;
     }
 }
