@@ -47,7 +47,9 @@ public class DefaultBankBranch implements BankBranchService {
         List<BankBranchListResponse> data = (List<BankBranchListResponse>) dataSourceResult.getData();
         List<BankBranchListResponse> bankBranchListResponses = new ArrayList<>();
         for (BankBranchListResponse bankBranchListResponse : data) {
-            if (bankBranchListResponse.getDisableDate() == null) bankBranchListResponse.setActiveFlag(true);
+            if (bankBranchListResponse.getDisableDate() == null){
+                bankBranchListResponse.setActiveFlag(true);
+            }
             bankBranchListResponses.add(bankBranchListResponse);
         }
         dataSourceResult.setData(bankBranchListResponses);

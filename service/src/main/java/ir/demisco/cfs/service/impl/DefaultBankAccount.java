@@ -67,7 +67,9 @@ public class DefaultBankAccount implements BankAccountService {
         List<BankAccountListResponse> data = (List<BankAccountListResponse>) dataSourceResult.getData();
         List<BankAccountListResponse> bankAccountListResponses = new ArrayList<>();
         for (BankAccountListResponse bankAccountListResponse : data) {
-            if (bankAccountListResponse.getDisableDate() == null) bankAccountListResponse.setActiveFlag(true);
+            if (bankAccountListResponse.getDisableDate() == null){
+                bankAccountListResponse.setActiveFlag(true);
+            }
             bankAccountListResponses.add(bankAccountListResponse);
         }
         dataSourceResult.setData(bankAccountListResponses);

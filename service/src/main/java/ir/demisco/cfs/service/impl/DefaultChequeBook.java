@@ -55,7 +55,9 @@ public class DefaultChequeBook implements ChequeBookService {
         List<ChequeBookListResponse> data = (List<ChequeBookListResponse>) dataSourceResult.getData();
         List<ChequeBookListResponse> chequeBookListResponses = new ArrayList<>();
         for (ChequeBookListResponse chequeBookListResponse : data) {
-            if (chequeBookListResponse.getDisableDate() == null) chequeBookListResponse.setActiveFlag(true);
+            if (chequeBookListResponse.getDisableDate() == null){
+                chequeBookListResponse.setActiveFlag(true);
+            }
             chequeBookListResponses.add(chequeBookListResponse);
         }
         dataSourceResult.setData(chequeBookListResponses);
