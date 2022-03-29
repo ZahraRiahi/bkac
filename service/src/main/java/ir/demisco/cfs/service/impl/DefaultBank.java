@@ -10,6 +10,7 @@ import ir.demisco.cloud.core.middle.model.dto.DataSourceRequest;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceResult;
 import ir.demisco.cloud.core.middle.service.business.api.core.GridFilterService;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,7 +36,9 @@ public class DefaultBank implements BankService {
         List<BankListResponse> data = (List<BankListResponse>) dataSourceResult.getData();
         List<BankListResponse> bankListResponses = new ArrayList<>();
         for (BankListResponse bankListResponse : data) {
-            if (bankListResponse.getDisableDate() == null) bankListResponse.setActiveFlag(true);
+            if (bankListResponse.getDisableDate() == null) {
+                bankListResponse.setActiveFlag(true);
+            }
             bankListResponses.add(bankListResponse);
         }
         dataSourceResult.setData(bankListResponses);
