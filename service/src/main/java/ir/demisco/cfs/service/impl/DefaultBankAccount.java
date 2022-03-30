@@ -5,7 +5,15 @@ import ir.demisco.cfs.model.dto.request.BankAccountSaveRequest;
 import ir.demisco.cfs.model.dto.response.BankAccountListResponse;
 import ir.demisco.cfs.model.entity.BankAccount;
 import ir.demisco.cfs.service.api.BankAccountService;
-import ir.demisco.cfs.service.repository.*;
+import ir.demisco.cfs.service.repository.BankAccountDepartmentRepository;
+import ir.demisco.cfs.service.repository.BankAccountRepository;
+import ir.demisco.cfs.service.repository.BankAccountTypeRepository;
+import ir.demisco.cfs.service.repository.BankBranchRepository;
+import ir.demisco.cfs.service.repository.BankRepository;
+import ir.demisco.cfs.service.repository.CentricAccountRepository;
+import ir.demisco.cfs.service.repository.FinancialAccountRepository;
+import ir.demisco.cfs.service.repository.MoneyTypeRepository;
+import ir.demisco.cfs.service.repository.OrganizationRepository;
 import ir.demisco.cloud.core.middle.exception.RuleException;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceRequest;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceResult;
@@ -59,7 +67,9 @@ public class DefaultBankAccount implements BankAccountService {
         List<BankAccountListResponse> data = (List<BankAccountListResponse>) dataSourceResult.getData();
         List<BankAccountListResponse> bankAccountListResponses = new ArrayList<>();
         for (BankAccountListResponse bankAccountListResponse : data) {
-            if (bankAccountListResponse.getDisableDate() == null) bankAccountListResponse.setActiveFlag(true);
+            if (bankAccountListResponse.getDisableDate() == null){
+                bankAccountListResponse.setActiveFlag(true);
+            }
             bankAccountListResponses.add(bankAccountListResponse);
         }
         dataSourceResult.setData(bankAccountListResponses);
@@ -76,46 +86,44 @@ public class DefaultBankAccount implements BankAccountService {
         if (bankAccountCount > 0) {
             throw new RuleException("fin.bank.uniqueBankAccount");
         }
-
-        bankAccountCount = bankAccountRepository.getCountByBankAccountAndAccountCodeSheba(bankAccountSaveRequest.getAccountCodeSheba());
-        if (bankAccountCount > 0) {
-            throw new RuleException("fin.bank.uniqueBankAccount");
-        }
-
-        if (bankAccountSaveRequest.getBankAccountCode() == null) {
-            throw new RuleException("fin.bankAccount.code");
-        }
-        if (bankAccountSaveRequest.getDescription() == null) {
-            throw new RuleException("fin.bankAccount.description");
-        }
-        if (bankAccountSaveRequest.getMoneyTypeId() == null) {
-            throw new RuleException("fin.bankAccount.moneyTypeId");
-        }
-
-        if (bankAccountSaveRequest.getBankAccountTypeId() == null) {
-            throw new RuleException("fin.bankAccount.bankAccountType");
-        }
-        if (bankAccountSaveRequest.getAccountCodeSheba() == null) {
-            throw new RuleException("fin.bankAccount.accountCodeSheba");
-        }
-
-        if (bankAccountSaveRequest.getBankId() == null) {
-            throw new RuleException("fin.bankAccount.bankId");
-        }
-        if (bankAccountSaveRequest.getBankBranchId() == null) {
-            throw new RuleException("fin.bankAccount.bankBranchId");
-        }
-
-        if (bankAccountSaveRequest.getInternetFlag() == null) {
-            throw new RuleException("fin.bankAccount.internetFlag");
-        }
-
-        if (bankAccountSaveRequest.getRelatedFlag() == null) {
-            throw new RuleException("fin.bankAccount.relatedFlag");
-        }
-        if (bankAccountSaveRequest.getDefaultFlag() == null) {
-            throw new RuleException("fin.bankAccount.defaultFlag");
-        }
+//        bankAccountCount = bankAccountRepository.getCountByBankAccountAndAccountCodeSheba(bankAccountSaveRequest.getAccountCodeSheba());
+//        if (bankAccountCount > 0) {
+//            throw new RuleException("fin.bank.uniqueBankAccount");
+//        }
+//        if (bankAccountSaveRequest.getBankAccountCode() == null) {
+//            throw new RuleException("fin.bankAccount.code");
+//        }
+//        if (bankAccountSaveRequest.getDescription() == null) {
+//            throw new RuleException("fin.bankAccount.description");
+//        }
+//        if (bankAccountSaveRequest.getMoneyTypeId() == null) {
+//            throw new RuleException("fin.bankAccount.moneyTypeId");
+//        }
+//
+//        if (bankAccountSaveRequest.getBankAccountTypeId() == null) {
+//            throw new RuleException("fin.bankAccount.bankAccountType");
+//        }
+//        if (bankAccountSaveRequest.getAccountCodeSheba() == null) {
+//            throw new RuleException("fin.bankAccount.accountCodeSheba");
+//        }
+//
+//        if (bankAccountSaveRequest.getBankId() == null) {
+//            throw new RuleException("fin.bankAccount.bankId");
+//        }
+//        if (bankAccountSaveRequest.getBankBranchId() == null) {
+//            throw new RuleException("fin.bankAccount.bankBranchId");
+//        }
+//
+//        if (bankAccountSaveRequest.getInternetFlag() == null) {
+//            throw new RuleException("fin.bankAccount.internetFlag");
+//        }
+//
+//        if (bankAccountSaveRequest.getRelatedFlag() == null) {
+//            throw new RuleException("fin.bankAccount.relatedFlag");
+//        }
+//        if (bankAccountSaveRequest.getDefaultFlag() == null) {
+//            throw new RuleException("fin.bankAccount.defaultFlag");
+//        }
         if (bankAccountSaveRequest.getBankAccountId() != null) {
             if (!bankAccountSaveRequest.getActiveFlag()) {
                 bankAccount.setDisableDate(new Date());

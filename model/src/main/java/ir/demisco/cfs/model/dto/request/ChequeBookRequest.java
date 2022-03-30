@@ -1,6 +1,6 @@
 package ir.demisco.cfs.model.dto.request;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Date;
 

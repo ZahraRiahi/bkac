@@ -147,13 +147,13 @@ public class ChequeListResponse {
             return this;
         }
 
-        public Builder ChequeUseTypeId(Long ChequeUseTypeId) {
-            chequeListResponse.setChequeUseTypeId(ChequeUseTypeId);
+        public Builder chequeUseTypeId(Long chequeUseTypeId) {
+            chequeListResponse.setChequeUseTypeId(chequeUseTypeId);
             return this;
         }
 
-        public Builder ChequeUseTypeDescription(String ChequeUseTypeDescription) {
-            chequeListResponse.setChequeUseTypeDescription(ChequeUseTypeDescription);
+        public Builder chequeUseTypeDescription(String chequeUseTypeDescription) {
+            chequeListResponse.setChequeUseTypeDescription(chequeUseTypeDescription);
             return this;
         }
 

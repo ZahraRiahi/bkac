@@ -5,7 +5,8 @@ import ir.demisco.cfs.model.dto.request.BankBranchGetRequest;
 import ir.demisco.cfs.model.dto.request.BankBranchRequest;
 import ir.demisco.cfs.model.dto.response.BankBranchGetResponse;
 import ir.demisco.cfs.model.dto.response.BankBranchListResponse;
-import ir.demisco.cfs.model.entity.*;
+import ir.demisco.cfs.model.entity.BankAccount;
+import ir.demisco.cfs.model.entity.BankBranch;
 import ir.demisco.cfs.service.api.BankBranchService;
 import ir.demisco.cfs.service.repository.BankAccountRepository;
 import ir.demisco.cfs.service.repository.BankBranchRepository;
@@ -46,7 +47,9 @@ public class DefaultBankBranch implements BankBranchService {
         List<BankBranchListResponse> data = (List<BankBranchListResponse>) dataSourceResult.getData();
         List<BankBranchListResponse> bankBranchListResponses = new ArrayList<>();
         for (BankBranchListResponse bankBranchListResponse : data) {
-            if (bankBranchListResponse.getDisableDate() == null) bankBranchListResponse.setActiveFlag(true);
+            if (bankBranchListResponse.getDisableDate() == null){
+                bankBranchListResponse.setActiveFlag(true);
+            }
             bankBranchListResponses.add(bankBranchListResponse);
         }
         dataSourceResult.setData(bankBranchListResponses);

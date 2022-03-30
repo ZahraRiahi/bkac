@@ -6,7 +6,12 @@ import ir.demisco.cfs.model.dto.response.ChequeBookListResponse;
 import ir.demisco.cfs.model.entity.Cheque;
 import ir.demisco.cfs.model.entity.ChequeBook;
 import ir.demisco.cfs.service.api.ChequeBookService;
-import ir.demisco.cfs.service.repository.*;
+import ir.demisco.cfs.service.repository.BankAccountRepository;
+import ir.demisco.cfs.service.repository.ChequeBookRepository;
+import ir.demisco.cfs.service.repository.ChequeBookTypeRepository;
+import ir.demisco.cfs.service.repository.ChequeRepository;
+import ir.demisco.cfs.service.repository.ChequeStatusRepository;
+import ir.demisco.cfs.service.repository.ChequeUseTypeRepository;
 import ir.demisco.cloud.core.middle.exception.RuleException;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceRequest;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceResult;
@@ -50,7 +55,9 @@ public class DefaultChequeBook implements ChequeBookService {
         List<ChequeBookListResponse> data = (List<ChequeBookListResponse>) dataSourceResult.getData();
         List<ChequeBookListResponse> chequeBookListResponses = new ArrayList<>();
         for (ChequeBookListResponse chequeBookListResponse : data) {
-            if (chequeBookListResponse.getDisableDate() == null) chequeBookListResponse.setActiveFlag(true);
+            if (chequeBookListResponse.getDisableDate() == null){
+                chequeBookListResponse.setActiveFlag(true);
+            }
             chequeBookListResponses.add(chequeBookListResponse);
         }
         dataSourceResult.setData(chequeBookListResponses);
