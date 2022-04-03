@@ -48,15 +48,6 @@ public class DefaultCheque implements ChequeService {
         if (chequeChangeStatusRequest.getChequeId() == 3 && oldChequeStatusId != 2) {
             throw new RuleException("fin.chequeStatus.equalThreeAndNotEqualTwo");
         }
-//        if (chequeChangeStatusRequest.getChequeId() == 4 && oldChequeStatusId != 3) {
-//            throw new RuleException("fin.chequeStatus.equalFourAndNotEqualThree");
-//        }
-//        if (chequeChangeStatusRequest.getChequeId() == 5 && (oldChequeStatusId != 3 || oldChequeStatusId != 4)) {
-//            throw new RuleException("fin.chequeStatus.equalFiveAndNotEqualThreeOrFour");
-//        }
-//        if (chequeChangeStatusRequest.getChequeId() == 6 && oldChequeStatusId != 3) {
-//            throw new RuleException("fin.chequeStatus.equalSixAndNotEqualThree");
-//        }
         update(chequeChangeStatusRequest);
         if (chequeChangeStatusRequest.getChequeId() == 7 && (oldChequeStatusId != 1 || oldChequeStatusId != 5)) {
             throw new RuleException("fin.chequeStatus.equalSevenAndNotEqualOneOrFive");
