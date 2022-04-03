@@ -44,15 +44,12 @@ public class DefaultCheque implements ChequeService {
 
         if (chequeChangeStatusRequest.getChequeId() == 2 && oldChequeStatusId != 1) {
             throw new RuleException("fin.chequeStatus.equalTwoAndNotEqualOne");
-        }  if (chequeChangeStatusRequest.getChequeId() == 3 && oldChequeStatusId != 2) {
+        }
+        if (chequeChangeStatusRequest.getChequeId() == 3 && oldChequeStatusId != 2) {
             throw new RuleException("fin.chequeStatus.equalThreeAndNotEqualTwo");
-        }  if (chequeChangeStatusRequest.getChequeId() == 4 && oldChequeStatusId != 3) {
-            throw new RuleException("fin.chequeStatus.equalFourAndNotEqualThree");
-        }  if (chequeChangeStatusRequest.getChequeId() == 5 && (oldChequeStatusId != 3 || oldChequeStatusId != 4)) {
-            throw new RuleException("fin.chequeStatus.equalFiveAndNotEqualThreeOrFour");
-        }  if (chequeChangeStatusRequest.getChequeId() == 6 && oldChequeStatusId != 3) {
-            throw new RuleException("fin.chequeStatus.equalSixAndNotEqualThree");
-        }  if (chequeChangeStatusRequest.getChequeId() == 7 && (oldChequeStatusId != 1 || oldChequeStatusId != 5)) {
+        }
+        update(chequeChangeStatusRequest);
+        if (chequeChangeStatusRequest.getChequeId() == 7 && (oldChequeStatusId != 1 || oldChequeStatusId != 5)) {
             throw new RuleException("fin.chequeStatus.equalSevenAndNotEqualOneOrFive");
         } else {
             Cheque cheque = chequeRepository.findById(chequeChangeStatusRequest.getChequeId() == null ? 0 : chequeChangeStatusRequest.getChequeId()).orElse(new Cheque());
@@ -66,4 +63,19 @@ public class DefaultCheque implements ChequeService {
         return false;
     }
 
+    public Boolean update(ChequeChangeStatusRequest chequeChangeStatusRequest) {
+        Long oldChequeStatusId;
+        oldChequeStatusId = chequeRepository.getChequeStatusByChequeId(chequeChangeStatusRequest.getChequeId());
+        if (chequeChangeStatusRequest.getChequeId() == 4 && oldChequeStatusId != 3) {
+            throw new RuleException("fin.chequeStatus.equalFourAndNotEqualThree");
+        }
+        if (chequeChangeStatusRequest.getChequeId() == 5 && (oldChequeStatusId != 3 || oldChequeStatusId != 4)) {
+            throw new RuleException("fin.chequeStatus.equalFiveAndNotEqualThreeOrFour");
+        }
+        if (chequeChangeStatusRequest.getChequeId() == 6 && oldChequeStatusId != 3) {
+            throw new RuleException("fin.chequeStatus.equalSixAndNotEqualThree");
+        }
+
+        return false;
+    }
 }
