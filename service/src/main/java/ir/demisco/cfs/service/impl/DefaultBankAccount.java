@@ -67,7 +67,7 @@ public class DefaultBankAccount implements BankAccountService {
         List<BankAccountListResponse> data = (List<BankAccountListResponse>) dataSourceResult.getData();
         List<BankAccountListResponse> bankAccountListResponses = new ArrayList<>();
         for (BankAccountListResponse bankAccountListResponse : data) {
-            if (bankAccountListResponse.getDisableDate() == null){
+            if (bankAccountListResponse.getDisableDate() == null) {
                 bankAccountListResponse.setActiveFlag(true);
             }
             bankAccountListResponses.add(bankAccountListResponse);
@@ -87,7 +87,7 @@ public class DefaultBankAccount implements BankAccountService {
             throw new RuleException("fin.bank.uniqueBankAccount");
         }
         if (bankAccountSaveRequest.getBankAccountId() != null) {
-            if (!bankAccountSaveRequest.getActiveFlag()) {
+            if (Boolean.TRUE.equals(!bankAccountSaveRequest.getActiveFlag())) {
                 bankAccount.setDisableDate(new Date());
             } else {
                 bankAccount.setDisableDate(null);
@@ -129,7 +129,7 @@ public class DefaultBankAccount implements BankAccountService {
             throw new RuleException("fin.bankAccount.changeStatus");
         }
         BankAccount bankAccount = bankAccountRepository.findById(bankAccountChangeStatusRequest.getBankAccountId() == null ? 0 : bankAccountChangeStatusRequest.getBankAccountId()).orElse(new BankAccount());
-        if (!bankAccountChangeStatusRequest.getActiveFlag()) {
+        if (Boolean.TRUE.equals(!bankAccountChangeStatusRequest.getActiveFlag())) {
             bankAccount.setDisableDate(new Date());
         } else {
             bankAccount.setDisableDate(null);

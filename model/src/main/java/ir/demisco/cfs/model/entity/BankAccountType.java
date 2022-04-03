@@ -1,5 +1,7 @@
 package ir.demisco.cfs.model.entity;
 
+import ir.demisco.cloud.basic.model.entity.domain.AuditModel;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,12 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity(name = "BKACBankAccountType")
 @Table(name = "bank_account_type", schema = "bkac")
-public class BankAccountType {
+public class BankAccountType extends AuditModel<Long> implements Serializable {
     private Long id;
     private String description;
     private Date disableDate;

@@ -69,7 +69,7 @@ public class DefaultBank implements BankService {
             if (bankCount > 0) {
                 throw new RuleException("fin.bank.uniqueBank");
             }
-            if (!bankSaveRequest.getActiveFlag()) {
+            if (Boolean.TRUE.equals(!bankSaveRequest.getActiveFlag())) {
                 bank.setDisableDate(new Date());
             } else {
                 bank.setDisableDate(null);

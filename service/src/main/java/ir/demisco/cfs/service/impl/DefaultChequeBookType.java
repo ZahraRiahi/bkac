@@ -44,7 +44,7 @@ public class DefaultChequeBookType implements ChequeBookTypeService {
         List<ChequeBookTypeListResponse> data = (List<ChequeBookTypeListResponse>) dataSourceResult.getData();
         List<ChequeBookTypeListResponse> chequeBookTypeListResponses = new ArrayList<>();
         for (ChequeBookTypeListResponse chequeBookTypeListResponse : data) {
-            if (chequeBookTypeListResponse.getDisableDate() == null){
+            if (chequeBookTypeListResponse.getDisableDate() == null) {
                 chequeBookTypeListResponse.setActiveFlag(true);
             }
             chequeBookTypeListResponses.add(chequeBookTypeListResponse);
@@ -67,7 +67,7 @@ public class DefaultChequeBookType implements ChequeBookTypeService {
             throw new RuleException("fin.chequeBookType.chequeCount");
         }
         if (chequeBookTypeRequest.getChequeBookTypeId() != null) {
-            if (!chequeBookTypeRequest.getActiveFlag()) {
+            if (Boolean.TRUE.equals(!chequeBookTypeRequest.getActiveFlag())) {
                 chequeBookType.setDisableDate(new Date());
             } else {
                 chequeBookType.setDisableDate(null);
