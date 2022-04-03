@@ -23,7 +23,6 @@ public class CentricAccountType extends AuditModel<Long> {
     private Long documentRelatedFlag;
     private Long parrentFlag;
     private LocalDateTime deletedDate;
-//    private List<AccountRelationTypeDetail> accountRelationTypeDetails;
     @Id
     public Long getId() {
         return id;
@@ -132,12 +131,4 @@ public class CentricAccountType extends AuditModel<Long> {
         this.deletedDate = deletedDate;
     }
 
-//    @OneToMany(mappedBy = "centricAccountType")
-//    public List<AccountRelationTypeDetail> getAccountRelationTypeDetails() {
-//        return accountRelationTypeDetails;
-//    }
-//
-//    public void setAccountRelationTypeDetails(List<AccountRelationTypeDetail> accountRelationTypeDetails) {
-//        this.accountRelationTypeDetails = accountRelationTypeDetails;
-//    }
 }
