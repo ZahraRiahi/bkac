@@ -4,7 +4,6 @@ import ir.demisco.cfs.model.dto.response.BankBranchListResponse;
 import ir.demisco.cfs.model.entity.BankBranch;
 import ir.demisco.cloud.core.middle.service.business.api.core.GridDataProvider;
 import org.springframework.stereotype.Component;
-
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Selection;
 import java.util.Date;
