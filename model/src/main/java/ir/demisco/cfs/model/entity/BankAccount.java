@@ -18,7 +18,7 @@ import java.util.Date;
 
 @Entity(name = "BKACBankAccount")
 @Table(name = "bank_account", schema = "bkac")
-public class BankAccount extends AuditModel<Long> {
+public class BankAccount extends AuditModel<Long>  {
     private Long id;
     private String code;
     private String description;

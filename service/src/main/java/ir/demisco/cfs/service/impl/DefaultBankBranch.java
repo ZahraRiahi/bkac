@@ -47,7 +47,7 @@ public class DefaultBankBranch implements BankBranchService {
         List<BankBranchListResponse> data = (List<BankBranchListResponse>) dataSourceResult.getData();
         List<BankBranchListResponse> bankBranchListResponses = new ArrayList<>();
         for (BankBranchListResponse bankBranchListResponse : data) {
-            if (bankBranchListResponse.getDisableDate() == null){
+            if (bankBranchListResponse.getDisableDate() == null) {
                 bankBranchListResponse.setActiveFlag(true);
             }
             bankBranchListResponses.add(bankBranchListResponse);
@@ -96,7 +96,7 @@ public class DefaultBankBranch implements BankBranchService {
             if (bankBranchCount > 0) {
                 throw new RuleException("fin.bankAccount.uniqueBankBranch");
             }
-            if (!bankBranchRequest.getActiveFlag()) {
+            if (Boolean.TRUE.equals(!bankBranchRequest.getActiveFlag())) {
                 bankBranch.setDisableDate(new Date());
             } else {
                 bankBranch.setDisableDate(null);
@@ -140,7 +140,7 @@ public class DefaultBankBranch implements BankBranchService {
             throw new RuleException("fin.bankBranch.changeStatus");
         }
         BankBranch bankBranch = bankBranchRepository.findById(bankBranchChangeStatusRequest.getBranchId() == null ? 0 : bankBranchChangeStatusRequest.getBranchId()).orElse(new BankBranch());
-        if (!bankBranchChangeStatusRequest.getActiveFlag()) {
+        if (Boolean.TRUE.equals(!bankBranchChangeStatusRequest.getActiveFlag())) {
             bankBranch.setDisableDate(new Date());
         } else {
             bankBranch.setDisableDate(null);
