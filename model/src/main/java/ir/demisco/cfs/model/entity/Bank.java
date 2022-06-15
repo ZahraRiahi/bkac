@@ -23,14 +23,14 @@ public class Bank extends AuditModel<Long> {
     private String formatNumber;
     private String iconName;
 
-
+    @Override
     @Id
     @SequenceGenerator(schema = "bkac", name = "bank_generator", sequenceName = "sq_bank", allocationSize = 50)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bank_generator")
     public Long getId() {
         return id;
     }
-
+    @Override
     public void setId(Long id) {
         this.id = id;
     }

@@ -110,10 +110,10 @@ public class DefaultChequeBook implements ChequeBookService {
         if (chequeBooks >= 1) {
             throw new RuleException("این دسته چک قبلا ثبت شده است. ");
         }
-        chequeBook.setBankAccount(chequeBookRequest.getBankAccountId() != null ?
-                bankAccountRepository.getOne(chequeBookRequest.getBankAccountId()) : null);
-        chequeBook.setChequeBookType(chequeBookRequest.getChequeBookTypeId() != null ?
-                chequeBookTypeRepository.getOne(chequeBookRequest.getChequeBookTypeId()) : null);
+        chequeBook.setBankAccount(
+                bankAccountRepository.getOne(chequeBookRequest.getBankAccountId()));
+        chequeBook.setChequeBookType(
+                chequeBookTypeRepository.getOne(chequeBookRequest.getChequeBookTypeId()));
         chequeBook.setNumStart(chequeBookRequest.getNumStart());
         chequeBook.setNumEnd(chequeBookRequest.getNumEnd());
         chequeBook.setFlagRemit(chequeBookRequest.getFlagRemit());
@@ -122,7 +122,7 @@ public class DefaultChequeBook implements ChequeBookService {
         chequeBookRepository.save(chequeBook);
         chequeBookRepository.flush();
         chequeBookRepository.findByChequeAndNumEndAndNumStart(chequeBookRequest.getNumEnd(), chequeBookRequest.getNumStart())
-                .forEach(aLong -> {
+                .forEach((Long aLong) -> {
                     List<Long> chequeUnique = chequeRepository.findByChequeBookAndChequeNumberAndChequeBookId(chequeBookRequest.getNumStart() + (aLong - 1), chequeBookRequest.getChequeBookId());
                     if (chequeUnique.size() > 1) {
                         throw new RuleException("fin.chequeBook.useCheque");

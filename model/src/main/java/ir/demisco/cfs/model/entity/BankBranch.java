@@ -29,14 +29,14 @@ public class BankBranch extends AuditModel<Long> {
     private Date disableDate;
     private LocalDateTime deletedDate;
     private String address;
-
+    @Override
     @Id
     @SequenceGenerator(schema = "bkac", name = "bank_branch_generator", sequenceName = "sq_bank_branch", allocationSize = 50)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bank_branch_generator")
     public Long getId() {
         return id;
     }
-
+    @Override
     public void setId(Long id) {
         this.id = id;
     }

@@ -20,14 +20,14 @@ public class BankAccountType extends AuditModel<Long> implements Serializable {
     private String description;
     private Date disableDate;
     private LocalDateTime deletedDate;
-
+    @Override
     @Id
     @SequenceGenerator(schema = "bkac", name = "bank_account_type_generator", sequenceName = "sq_bank_account_type", allocationSize = 50)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bank_account_type_generator")
     public Long getId() {
         return id;
     }
-
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
