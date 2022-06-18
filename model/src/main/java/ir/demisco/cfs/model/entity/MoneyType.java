@@ -1,4 +1,7 @@
 package ir.demisco.cfs.model.entity;
+
+import ir.demisco.cloud.basic.model.entity.domain.AuditModel;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +13,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "money_type", schema = "fncr")
-public class MoneyType {
+public class MoneyType extends AuditModel<Long> {
     private Long id;
     private String code;
     private String description;
@@ -20,17 +23,18 @@ public class MoneyType {
     private String symbol;
     private Boolean isBaseFlag;
     private LocalDateTime deletedDate;
-
+    @Override
     @Id
-    @SequenceGenerator(schema = "bkac", name = "money_type_generator", sequenceName = "sq_money_type", allocationSize = 50)
+    @SequenceGenerator(schema = "fncr", name = "money_type_generator", sequenceName = "sq_money_type", allocationSize = 50)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "money_type_generator")
     public Long getId() {
         return id;
     }
-
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
+
     @Column(name = "CODE")
     public String getCode() {
         return code;
@@ -39,6 +43,7 @@ public class MoneyType {
     public void setCode(String code) {
         this.code = code;
     }
+
     @Column(name = "DESCRIPTION")
     public String getDescription() {
         return description;
@@ -47,6 +52,7 @@ public class MoneyType {
     public void setDescription(String description) {
         this.description = description;
     }
+
     @Column(name = "SHORT_DESCRIPTION")
     public String getShortDescription() {
         return shortDescription;
@@ -55,6 +61,7 @@ public class MoneyType {
     public void setShortDescription(String shortDescription) {
         this.shortDescription = shortDescription;
     }
+
     @Column(name = "ACTIVE_FLAG")
     public Boolean getActiveFlag() {
         return activeFlag;
@@ -63,6 +70,7 @@ public class MoneyType {
     public void setActiveFlag(Boolean activeFlag) {
         this.activeFlag = activeFlag;
     }
+
     @Column(name = "NATIONAL_CURRENCY_FLAG")
     public Boolean getNationalCurrencyFlag() {
         return nationalCurrencyFlag;
@@ -80,6 +88,7 @@ public class MoneyType {
     public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
+
     @Column(name = "IS_BASE_FLAG")
     public Boolean getBaseFlag() {
         return isBaseFlag;
@@ -88,6 +97,7 @@ public class MoneyType {
     public void setBaseFlag(Boolean baseFlag) {
         isBaseFlag = baseFlag;
     }
+
     @Column(name = "DELETED_DATE")
     public LocalDateTime getDeletedDate() {
         return deletedDate;

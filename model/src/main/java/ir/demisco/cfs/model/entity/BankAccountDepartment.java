@@ -1,4 +1,7 @@
 package ir.demisco.cfs.model.entity;
+
+import ir.demisco.cloud.basic.model.entity.domain.AuditModel;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,19 +16,19 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "bank_account_department", schema = "bkac")
-public class BankAccountDepartment {
+public class BankAccountDepartment extends AuditModel<Long> {
     private Long id;
     private BankAccount bankAccount;
     private FinancialDepartment financialDepartment;
     private LocalDateTime deletedDate;
-
+    @Override
     @Id
     @SequenceGenerator(schema = "bkac", name = "bank_account_department_generator", sequenceName = "sq_bank_account_department", allocationSize = 50)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bank_account_department_generator")
     public Long getId() {
         return id;
     }
-
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -49,6 +52,7 @@ public class BankAccountDepartment {
     public void setFinancialDepartment(FinancialDepartment financialDepartment) {
         this.financialDepartment = financialDepartment;
     }
+
     @Column(name = "DELETED_DATE")
     public LocalDateTime getDeletedDate() {
         return deletedDate;

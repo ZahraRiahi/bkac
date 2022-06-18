@@ -38,14 +38,14 @@ public class BankAccount extends AuditModel<Long>  {
     private Boolean relatedFlag;
     private Boolean defaultFlag;
     private LocalDateTime deletedDate;
-
+    @Override
     @Id
     @SequenceGenerator(schema = "bkac", name = "bank_account_generator", sequenceName = "sq_bank_account", allocationSize = 50)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bank_account_generator")
     public Long getId() {
         return id;
     }
-
+    @Override
     public void setId(Long id) {
         this.id = id;
     }

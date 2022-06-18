@@ -26,14 +26,14 @@ public class ChequeBookType extends AuditModel<Long> {
     private Bank bank;
     private String subTitle;
     private Long chequeCount;
-
+    @Override
     @Id
     @SequenceGenerator(schema = "bkac", name = "cheque_Book_Type_generator", sequenceName = "sq_cheque_Book_Type", allocationSize = 50)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cheque_Book_Type_generator")
     public Long getId() {
         return id;
     }
-
+    @Override
     public void setId(Long id) {
         this.id = id;
     }

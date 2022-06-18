@@ -11,9 +11,9 @@ import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "FINANCIAL_DEPARTMENT" , schema = "fndc")
+@Table(name = "FINANCIAL_DEPARTMENT", schema = "fndc")
 public class FinancialDepartment extends AuditModel<Long> {
-
+    private Long id;
     private String code;
     private String name;
     private LocalDateTime deletedDate;
@@ -23,7 +23,12 @@ public class FinancialDepartment extends AuditModel<Long> {
     @SequenceGenerator(schema = "fndc", name = "financial_department_generator", sequenceName = "Sq_Financial_Department")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "financial_department_generator")
     public Long getId() {
-        return super.getId();
+        return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCode() {
