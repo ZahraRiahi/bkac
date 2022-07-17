@@ -82,9 +82,16 @@ public class DefaultBankAccount implements BankAccountService {
     public Boolean saveBankAccount(BankAccountSaveRequest bankAccountSaveRequest) {
         BankAccount bankAccount = bankAccountRepository.findById(bankAccountSaveRequest.getBankAccountId() == null ? 0 : bankAccountSaveRequest.getBankAccountId()).orElse(new BankAccount());
         Long bankAccountCount;
+        Long bankAccountCodeShebaCount;
         bankAccountCount = bankAccountRepository.getCountByBankAccountByCodeAndBankAccountTypeAndBank(bankAccountSaveRequest.getBankAccountCode(), bankAccountSaveRequest.getBankId(), bankAccountSaveRequest.getBankAccountTypeId());
+        bankAccountCodeShebaCount = bankAccountRepository.getCountByBankAccountByAccountCodeSheba(bankAccountSaveRequest.getAccountCodeSheba());
+
         if (bankAccountCount > 0) {
             throw new RuleException("fin.bank.uniqueBankAccount");
+        }
+
+        if (bankAccountCodeShebaCount > 0) {
+            throw new RuleException("fin.bank.uniqueBankAccountCodeSheba");
         }
         if (bankAccountSaveRequest.getBankAccountId() != null) {
             if (Boolean.TRUE.equals(!bankAccountSaveRequest.getActiveFlag())) {
