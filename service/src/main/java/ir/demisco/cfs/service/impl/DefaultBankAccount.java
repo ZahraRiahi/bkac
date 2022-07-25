@@ -85,10 +85,8 @@ public class DefaultBankAccount implements BankAccountService {
         Long bankAccountCodeShebaCount;
         bankAccountCount = bankAccountRepository.getCountByBankAccountByCodeAndBankAccountTypeAndBank(bankAccountSaveRequest.getBankAccountCode(), bankAccountSaveRequest.getBankId(), bankAccountSaveRequest.getBankAccountTypeId());
         bankAccountCodeShebaCount = bankAccountRepository.getCountByBankAccountByAccountCodeSheba(bankAccountSaveRequest.getAccountCodeSheba());
-        if (bankAccountSaveRequest.getBankAccountId() == null) {
-            if (bankAccountCount > 0) {
-                throw new RuleException("fin.bank.uniqueBankAccount");
-            }
+        if (bankAccountSaveRequest.getBankAccountId() == null && bankAccountCount > 0) {
+            throw new RuleException("fin.bank.uniqueBankAccount");
         }
         if (bankAccountCodeShebaCount > 0) {
             throw new RuleException("fin.bank.uniqueBankAccountCodeSheba");
