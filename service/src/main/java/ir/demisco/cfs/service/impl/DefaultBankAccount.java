@@ -88,9 +88,7 @@ public class DefaultBankAccount implements BankAccountService {
         if (bankAccountSaveRequest.getBankAccountId() == null && bankAccountCount > 0 && bankAccountCodeShebaCount > 0) {
             throw new RuleException("fin.bank.uniqueBankAccount");
         }
-//        if (bankAccountCodeShebaCount > 0) {
-//            throw new RuleException("fin.bank.uniqueBankAccountCodeSheba");
-//        }
+
         if (bankAccountSaveRequest.getBankAccountId() != null) {
             if (Boolean.TRUE.equals(!bankAccountSaveRequest.getActiveFlag())) {
                 bankAccount.setDisableDate(new Date());
