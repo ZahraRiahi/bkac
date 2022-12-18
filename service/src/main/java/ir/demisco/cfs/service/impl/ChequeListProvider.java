@@ -2,10 +2,12 @@ package ir.demisco.cfs.service.impl;
 
 import ir.demisco.cfs.model.dto.response.ChequeListResponse;
 import ir.demisco.cfs.model.entity.Cheque;
+import ir.demisco.cloud.core.middle.model.dto.DataSourceRequest;
 import ir.demisco.cloud.core.middle.service.business.api.core.GridDataProvider;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Selection;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -57,6 +59,19 @@ public class ChequeListProvider implements GridDataProvider {
                     .chequeStatusDescription((String) array[11])
                     .build();
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public Predicate getCustomRestriction(FilterContext filterContext) {
+        DataSourceRequest dataSourceRequest = filterContext.getDataSourceRequest();
+
+        for (DataSourceRequest.FilterDescriptor filter : dataSourceRequest.getFilter().getFilters()) {
+            String field = filter.getField();
+            if (filter.getValue() == null && ("chequeBook.id".equals(field))) {
+                filter.setDisable(true);
+            }
+        }
+        return null;
     }
 
 }
