@@ -2,7 +2,9 @@ package ir.demisco.cfs.service.impl;
 
 import ir.demisco.cfs.model.dto.request.BankAccountChangeStatusRequest;
 import ir.demisco.cfs.model.dto.request.BankAccountSaveRequest;
+import ir.demisco.cfs.model.dto.request.BankListRequest;
 import ir.demisco.cfs.model.dto.response.BankAccountListResponse;
+import ir.demisco.cfs.model.dto.response.BankAccountOutputModelResponse;
 import ir.demisco.cfs.model.entity.BankAccount;
 import ir.demisco.cfs.service.api.BankAccountService;
 import ir.demisco.cfs.service.repository.BankAccountDepartmentRepository;
@@ -25,6 +27,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DefaultBankAccount implements BankAccountService {
@@ -138,6 +141,30 @@ public class DefaultBankAccount implements BankAccountService {
             bankAccount.setDisableDate(null);
         }
         return true;
+    }
+
+    @Override
+    @Transactional(rollbackOn = Throwable.class)
+    public List<BankAccountOutputModelResponse> getBankListLov(BankListRequest bankListRequest) {
+        Object bankIdObject = null;
+        if (bankListRequest.getBankId() != null) {
+            bankIdObject = "bankIdObject";
+        } else {
+            bankListRequest.setBankId(0L);
+        }
+        List<Object[]> bankAccountList = bankAccountRepository.findByBakAndIdAndOrganization(bankListRequest.getBankId(), bankIdObject,
+                SecurityHelper.getCurrentUser().getOrganizationId());
+        return bankAccountList.stream().map(objects -> BankAccountOutputModelResponse.builder().bankAccountId(objects[0] == null ? 0 : Long.parseLong(objects[0].toString()))
+                .bankAccountCode(objects[1] == null ? null : objects[1].toString())
+                .bankAccountDescription(objects[2] == null ? null : objects[2].toString())
+                .bankAccountName(objects[3] == null ? null : objects[3].toString())
+                .bankId(objects[4] == null ? 0 : Long.parseLong(objects[4].toString()))
+                .bankName(objects[5] == null ? null : objects[5].toString())
+                .bankBranchId(objects[6] == null ? 0 : Long.parseLong(objects[6].toString()))
+                .branchName(objects[7] == null ? null : objects[7].toString())
+                .disableDate(objects[8] == null ? null : ((Date) objects[8]))
+                .activeFlag(Integer.parseInt(objects[9].toString()) == 1)
+                .build()).collect(Collectors.toList());
     }
 }
 
