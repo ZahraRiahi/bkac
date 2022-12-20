@@ -2,6 +2,8 @@ package ir.demisco.cfs.app.web.controller;
 
 import ir.demisco.cfs.model.dto.request.BankAccountChangeStatusRequest;
 import ir.demisco.cfs.model.dto.request.BankAccountSaveRequest;
+import ir.demisco.cfs.model.dto.request.BankListRequest;
+import ir.demisco.cfs.model.dto.response.BankAccountOutputModelResponse;
 import ir.demisco.cfs.service.api.BankAccountService;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceRequest;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceResult;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api-bankAccount")
@@ -36,5 +40,10 @@ public class BankAccountController {
         boolean result;
         result = bankAccountService.getBankAccountChangeStatus(bankAccountChangeStatusRequest);
         return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/lovList")
+    public ResponseEntity<List<BankAccountOutputModelResponse>> responseEntity(@RequestBody BankListRequest bankListRequest) {
+        return ResponseEntity.ok(bankAccountService.getBankListLov(bankListRequest));
     }
 }
