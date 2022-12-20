@@ -1,10 +1,13 @@
 package ir.demisco.cfs.app.web.controller;
 
 import ir.demisco.cfs.model.dto.request.ChequeBookChangeStatusRequest;
+import ir.demisco.cfs.model.dto.request.ChequeBookFilterModelRequest;
 import ir.demisco.cfs.model.dto.request.ChequeBookRequest;
+import ir.demisco.cfs.model.dto.response.ChequeBookOutputModelResponse;
 import ir.demisco.cfs.service.api.ChequeBookService;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceRequest;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceResult;
+import ir.demisco.cloud.core.security.util.SecurityHelper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api-chequeBook")
@@ -49,5 +53,10 @@ public class ChequeBookController {
         boolean result;
         result = chequeBookService.saveChequeBook(chequeBookRequest,errors);
         return ResponseEntity.ok(result);
+    }
+    @PostMapping("/lovList")
+    public ResponseEntity<List<ChequeBookOutputModelResponse>> responseEntity(@RequestBody ChequeBookFilterModelRequest chequeBookFilterModelRequest) {
+        chequeBookFilterModelRequest.setOrganizationId(SecurityHelper.getCurrentUser().getOrganizationId());
+        return ResponseEntity.ok(chequeBookService.getChequeBookList(chequeBookFilterModelRequest));
     }
 }
