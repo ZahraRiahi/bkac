@@ -1,8 +1,10 @@
 package ir.demisco.cfs.service.impl;
 
 import ir.demisco.cfs.model.dto.request.ChequeBookChangeStatusRequest;
+import ir.demisco.cfs.model.dto.request.ChequeBookFilterModelRequest;
 import ir.demisco.cfs.model.dto.request.ChequeBookRequest;
 import ir.demisco.cfs.model.dto.response.ChequeBookListResponse;
+import ir.demisco.cfs.model.dto.response.ChequeBookOutputModelResponse;
 import ir.demisco.cfs.model.entity.Cheque;
 import ir.demisco.cfs.model.entity.ChequeBook;
 import ir.demisco.cfs.service.api.ChequeBookService;
@@ -16,13 +18,16 @@ import ir.demisco.cloud.core.middle.exception.RuleException;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceRequest;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceResult;
 import ir.demisco.cloud.core.middle.service.business.api.core.GridFilterService;
+import ir.demisco.cloud.core.security.util.SecurityHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DefaultChequeBook implements ChequeBookService {
@@ -118,9 +123,8 @@ public class DefaultChequeBook implements ChequeBookService {
         chequeBook.setNumEnd(chequeBookRequest.getNumEnd());
         chequeBook.setFlagRemit(chequeBookRequest.getFlagRemit());
         chequeBook.setDisableDate(chequeBookRequest.getDisableDate());
-        chequeBook.setChequeBookDate(chequeBookRequest.getChequeBookDate());
+        chequeBook.setChequeBookDate(chequeBookRequest.getChequeBookDate());//trunc
         chequeBookRepository.save(chequeBook);
-        chequeBookRepository.flush();
         chequeBookRepository.findByChequeAndNumEndAndNumStart(chequeBookRequest.getNumEnd(), chequeBookRequest.getNumStart())
                 .forEach((Long aLong) -> {
                     List<Long> chequeUnique = chequeRepository.findByChequeBookAndChequeNumberAndChequeBookId(chequeBookRequest.getNumStart() + (aLong - 1), chequeBookRequest.getChequeBookId());
@@ -138,6 +142,35 @@ public class DefaultChequeBook implements ChequeBookService {
                 });
 
         return true;
+    }
+
+    @Override
+    @Transactional(rollbackOn = Throwable.class)
+    public List<ChequeBookOutputModelResponse> getChequeBookList(ChequeBookFilterModelRequest chequeBookFilterModelRequest) {
+        Object bankAccountObject = null;
+        if (chequeBookFilterModelRequest.getBankAccountId() != null) {
+            bankAccountObject = "bankAccountObject";
+        } else {
+            chequeBookFilterModelRequest.setBankAccountId(0L);
+        }
+        Object fromDateObject = null;
+        if (chequeBookFilterModelRequest.getFromDate() != null) {
+            fromDateObject = "fromDateObject";
+        } else {
+            chequeBookFilterModelRequest.setFromDate(LocalDateTime.now());
+        }
+        Object toDateObject = null;
+        if (chequeBookFilterModelRequest.getToDate() != null) {
+            toDateObject = "toDateObject";
+        } else {
+            chequeBookFilterModelRequest.setToDate(LocalDateTime.now());
+        }
+        List<Object[]> chequeBookObject = chequeBookRepository.findByChequeBookByOrgAndFromAndToDate(SecurityHelper.getCurrentUser().getOrganizationId(), bankAccountObject,
+                chequeBookFilterModelRequest.getBankAccountId(),fromDateObject,chequeBookFilterModelRequest.getFromDate(),toDateObject,chequeBookFilterModelRequest.getToDate());
+        return chequeBookObject.stream().map(objects -> ChequeBookOutputModelResponse.builder().chequeBookId(Long.parseLong(objects[0].toString()))
+                .chequeBookTypeDescription(objects[1].toString())
+                .activeFlag(Integer.parseInt(objects[2].toString()) == 1)
+                .build()).collect(Collectors.toList());
     }
 
 }
