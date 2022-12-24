@@ -11,4 +11,6 @@ public interface ChequeService {
     Boolean updateChequeChangeStatus(ChequeChangeStatusRequest chequeChangeStatusRequest);
 
     Boolean saveCheque(ChequeStatusListRequest chequeStatusListRequest);
+
+    String getNumberInWords(Long number);
 }

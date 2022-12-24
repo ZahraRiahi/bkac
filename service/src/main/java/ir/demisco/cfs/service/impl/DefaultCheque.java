@@ -14,6 +14,7 @@ import ir.demisco.cloud.core.middle.model.dto.DataSourceResult;
 import ir.demisco.cloud.core.middle.service.business.api.core.GridFilterService;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -25,14 +26,16 @@ public class DefaultCheque implements ChequeService {
     private final ChequeStatusRepository chequeStatusRepository;
     private final ChequeUseTypeRepository chequeUseTypeRepository;
     private final ChequeBookRepository chequeBookRepository;
+    private final EntityManager entityManager;
 
-    public DefaultCheque(GridFilterService gridFilterService, ChequeListProvider chequeListProvider, ChequeRepository chequeRepository, ChequeStatusRepository chequeStatusRepository, ChequeUseTypeRepository chequeUseTypeRepository, ChequeBookRepository chequeBookRepository) {
+    public DefaultCheque(GridFilterService gridFilterService, ChequeListProvider chequeListProvider, ChequeRepository chequeRepository, ChequeStatusRepository chequeStatusRepository, ChequeUseTypeRepository chequeUseTypeRepository, ChequeBookRepository chequeBookRepository, EntityManager entityManager) {
         this.gridFilterService = gridFilterService;
         this.chequeListProvider = chequeListProvider;
         this.chequeRepository = chequeRepository;
         this.chequeStatusRepository = chequeStatusRepository;
         this.chequeUseTypeRepository = chequeUseTypeRepository;
         this.chequeBookRepository = chequeBookRepository;
+        this.entityManager = entityManager;
     }
 
 
@@ -111,6 +114,13 @@ public class DefaultCheque implements ChequeService {
         cheque.setChequeStatus(chequeStatusRepository.getOne(chequeStatusListRequest.getChequeStatusId()));
         chequeRepository.save(cheque);
         return true;
+    }
+
+    @Override
+    @Transactional(rollbackOn = Throwable.class)
+    public String getNumberInWords(Long number) {
+        String s = chequeRepository.getFuction(number);
+        return s;
     }
 
     public Boolean update(ChequeChangeStatusRequest chequeChangeStatusRequest) {
