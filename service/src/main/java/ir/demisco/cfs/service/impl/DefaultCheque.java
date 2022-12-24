@@ -113,6 +113,13 @@ public class DefaultCheque implements ChequeService {
         return true;
     }
 
+    @Override
+    @Transactional(rollbackOn = Throwable.class)
+    public String getNumberInWords(Long number) {
+        String s = chequeRepository.getFuction(number);
+        return s;
+    }
+
     public Boolean update(ChequeChangeStatusRequest chequeChangeStatusRequest) {
         Long oldChequeStatusId;
         oldChequeStatusId = chequeRepository.getChequeStatusByChequeId(chequeChangeStatusRequest.getChequeId());

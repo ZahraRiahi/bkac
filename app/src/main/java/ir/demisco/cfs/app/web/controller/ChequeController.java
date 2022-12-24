@@ -6,6 +6,8 @@ import ir.demisco.cfs.service.api.ChequeService;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceRequest;
 import ir.demisco.cloud.core.middle.model.dto.DataSourceResult;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +38,13 @@ public class ChequeController {
     public ResponseEntity<Boolean> saveCheque(@RequestBody ChequeStatusListRequest chequeStatusListRequest) {
         boolean result;
         result = chequeService.saveCheque(chequeStatusListRequest);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/getNumberInWords/{number}")
+    public ResponseEntity<String> creatNumber(@PathVariable("number") Long number) {
+        String result;
+        result = chequeService.getNumberInWords(number);
         return ResponseEntity.ok(result);
     }
 }
